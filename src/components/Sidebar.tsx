@@ -1,9 +1,9 @@
 /**
  * Sidebar Navigation Component
- * 
- * Fixed left sidebar providing main app navigation.
- * Features active route highlighting and user profile section.
- * 
+ *
+ * Premium fixed left sidebar providing main app navigation.
+ * Features active route highlighting with accent indicator and user profile section.
+ *
  * Navigation:
  * - Dashboard (home)
  * - Package Tracker
@@ -24,6 +24,7 @@ import {
   HelpCircle,
   LogOut,
   Zap,
+  ChevronRight,
 } from "lucide-react";
 
 const navItems = [
@@ -31,21 +32,25 @@ const navItems = [
     name: "Dashboard",
     href: "/",
     icon: LayoutDashboard,
+    description: "Overview & metrics",
   },
   {
     name: "Package Tracker",
     href: "/package-tracker",
     icon: Package,
+    description: "Track shipments",
   },
   {
     name: "Ethical Receipts",
     href: "/ethical-receipts",
     icon: FileCheck,
+    description: "Verify compliance",
   },
   {
     name: "Map Visualization",
     href: "/map",
     icon: Map,
+    description: "Live fleet view",
   },
 ];
 
@@ -66,29 +71,39 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
+    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
       {/* Logo / Brand */}
-      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-gray-200 px-6">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 shadow-lg shadow-slate-900/20">
-          <Zap className="h-5 w-5 text-white" />
+      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-white/10 px-5">
+        <div className="relative flex h-10 w-10 items-center justify-center">
+          {/* Glow effect */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 opacity-80 blur-sm" />
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30">
+            <Zap className="h-5 w-5 text-white" />
+          </div>
         </div>
         <div className="flex flex-col">
-          <span className="text-base font-semibold tracking-tight text-slate-900">
+          <span className="text-base font-bold tracking-tight text-white">
             EthicTrack
           </span>
-          <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+          <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
             Supply Chain
           </span>
         </div>
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4" aria-label="Main navigation">
-        <div className="mb-2 px-3">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Main Menu
+      <nav
+        className="flex-1 space-y-1 overflow-y-auto px-3 py-6"
+        aria-label="Main navigation"
+      >
+        {/* Section Label */}
+        <div className="mb-4 flex items-center gap-2 px-3">
+          <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+            Navigation
           </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent" />
         </div>
+
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -96,39 +111,74 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? "bg-slate-900 text-white shadow-lg shadow-slate-900/25"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-white"
+                  : "text-slate-400 hover:bg-white/5 hover:text-white"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
-              {/* Active indicator bar */}
-              {isActive && (
-                <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white/30" />
-              )}
-              <Icon
-                className={`h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 ${
-                  isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600"
+              {/* Active indicator - left accent bar */}
+              <div
+                className={`absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full transition-all duration-300 ${
+                  isActive
+                    ? "bg-gradient-to-b from-indigo-400 to-purple-500 shadow-lg shadow-indigo-500/50"
+                    : "scale-y-0 bg-slate-600 group-hover:scale-y-50 group-hover:bg-slate-500"
                 }`}
               />
-              <span className="truncate">{item.name}</span>
-              {/* Hover glow effect for inactive items */}
-              {!isActive && (
-                <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-slate-100/0 via-slate-100/50 to-slate-100/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              )}
+
+              {/* Icon container */}
+              <div
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
+                  isActive
+                    ? "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30"
+                    : "bg-slate-800/50 group-hover:bg-slate-700/50"
+                }`}
+              >
+                <Icon
+                  className={`h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110 ${
+                    isActive ? "text-white" : "text-slate-400 group-hover:text-slate-200"
+                  }`}
+                />
+              </div>
+
+              {/* Text */}
+              <div className="flex flex-1 flex-col overflow-hidden">
+                <span className="truncate">{item.name}</span>
+                {item.description && (
+                  <span
+                    className={`truncate text-[10px] transition-colors duration-300 ${
+                      isActive ? "text-slate-400" : "text-slate-600 group-hover:text-slate-500"
+                    }`}
+                  >
+                    {item.description}
+                  </span>
+                )}
+              </div>
+
+              {/* Arrow indicator for active */}
+              <ChevronRight
+                className={`h-4 w-4 transition-all duration-300 ${
+                  isActive
+                    ? "text-indigo-400 opacity-100"
+                    : "text-slate-600 opacity-0 group-hover:opacity-100"
+                }`}
+              />
             </Link>
           );
         })}
       </nav>
 
       {/* Bottom Navigation */}
-      <div className="shrink-0 border-t border-gray-200 px-3 py-4">
-        <div className="mb-2 px-3">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+      <div className="shrink-0 border-t border-white/10 px-3 py-4">
+        {/* Section Label */}
+        <div className="mb-3 flex items-center gap-2 px-3">
+          <span className="text-[11px] font-semibold uppercase tracking-widest text-slate-500">
             Support
           </span>
+          <div className="h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent" />
         </div>
+
         {bottomNavItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -136,15 +186,15 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
                 isActive
-                  ? "bg-slate-100 text-slate-900"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+                  ? "bg-white/10 text-white"
+                  : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
               }`}
             >
               <Icon
-                className={`h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 ${
-                  isActive ? "text-slate-700" : "text-slate-400"
+                className={`h-5 w-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                  isActive ? "text-slate-300" : "text-slate-500 group-hover:text-slate-400"
                 }`}
               />
               <span className="truncate">{item.name}</span>
@@ -154,25 +204,30 @@ export default function Sidebar() {
       </div>
 
       {/* User Profile */}
-      <div className="shrink-0 border-t border-gray-200 p-4">
-        <div className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-slate-50 to-slate-100 p-3">
+      <div className="shrink-0 border-t border-white/10 p-4">
+        <div className="group flex items-center gap-3 rounded-xl bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
+          {/* Avatar */}
           <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-slate-700 to-slate-900 shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 ring-2 ring-white/10">
               <span className="text-sm font-semibold text-white">JD</span>
             </div>
             {/* Online indicator */}
-            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-slate-900 bg-emerald-500 shadow-lg shadow-emerald-500/50" />
           </div>
+
+          {/* User info */}
           <div className="flex flex-1 flex-col overflow-hidden">
-            <span className="truncate text-sm font-semibold text-slate-900">
+            <span className="truncate text-sm font-semibold text-white">
               John Doe
             </span>
             <span className="truncate text-xs text-slate-500">
               Admin Account
             </span>
           </div>
+
+          {/* Logout button */}
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all duration-200 hover:bg-white hover:text-slate-600 hover:shadow-sm"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 hover:bg-white/10 hover:text-white"
             aria-label="Sign out"
           >
             <LogOut className="h-4 w-4" />

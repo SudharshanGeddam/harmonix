@@ -1,126 +1,139 @@
 /**
- * Top Navbar Component
- * 
- * Sticky header with search functionality and user actions.
- * Provides quick access to notifications, help, and user menu.
+ * Navbar Component
+ *
+ * Premium sticky top navigation bar with page title, search,
+ * notifications, and user menu.
+ *
+ * Features:
+ * - Dynamic page title from route
+ * - Global search with Command+K hint
+ * - Notification badge with pulse animation
+ * - AI assistant quick action
+ * - User menu with online status
  */
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import {
+  Search,
+  Bell,
+  User,
+  Command,
+  Sparkles,
+  Menu,
+} from "lucide-react";
+
+const pageTitles: Record<string, { title: string; subtitle: string }> = {
+  "/": { title: "Dashboard", subtitle: "Welcome back, here's what's happening" },
+  "/package-tracker": { title: "Package Tracker", subtitle: "Monitor and manage shipments" },
+  "/ethical-receipts": { title: "Ethical Receipts", subtitle: "Verify blockchain compliance" },
+  "/map": { title: "Map Visualization", subtitle: "Real-time fleet tracking" },
+  "/settings": { title: "Settings", subtitle: "Manage your preferences" },
+  "/help": { title: "Help & Support", subtitle: "Get assistance and resources" },
+};
 
 export default function Navbar() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const pathname = usePathname();
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const currentPage = pageTitles[pathname] || { title: "EthicTrack", subtitle: "Supply chain platform" };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
-      {/* Left section - Search */}
-      <div className="flex items-center gap-4">
-        <div
-          className={`flex items-center gap-2 rounded-lg border px-3 py-2 transition-all ${
-            isSearchFocused
-              ? "border-slate-400 ring-2 ring-slate-100"
-              : "border-gray-200"
-          }`}
-        >
-          <svg
-            className="h-4 w-4 text-slate-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            type="search"
-            placeholder="Search..."
-            className="w-64 border-none bg-transparent text-sm text-slate-900 placeholder-slate-400 outline-none"
-            onFocus={() => setIsSearchFocused(true)}
-            onBlur={() => setIsSearchFocused(false)}
-            aria-label="Search"
-          />
-          <kbd className="hidden rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-500 md:inline-block">
-            ⌘K
-          </kbd>
-        </div>
-      </div>
+    <header className="sticky top-0 z-30 border-b border-gray-200/80 bg-white/80 backdrop-blur-xl">
+      <div className="flex h-16 items-center justify-between gap-4 px-6">
+        {/* Left Section - Page Title */}
+        <div className="flex items-center gap-4">
+          {/* Mobile menu button (hidden on desktop) */}
+          <button className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 lg:hidden">
+            <Menu className="h-5 w-5" />
+          </button>
 
-      {/* Right section - Actions */}
-      <div className="flex items-center gap-2">
-        {/* Notifications */}
-        <button
-          className="relative flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-          aria-label="View notifications"
-        >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-            />
-          </svg>
-          {/* Notification badge */}
-          <span className="absolute right-1.5 top-1.5 flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500"></span>
-          </span>
-        </button>
-
-        {/* Help */}
-        <button
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-          aria-label="Help and documentation"
-        >
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
-
-        {/* Divider */}
-        <div className="mx-2 h-6 w-px bg-gray-200"></div>
-
-        {/* User menu */}
-        <button
-          className="flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-slate-100"
-          aria-label="User menu"
-        >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-slate-700 to-slate-900">
-            <span className="text-xs font-medium text-white">JD</span>
+          <div className="hidden flex-col sm:flex">
+            <h1 className="text-lg font-semibold text-gray-900">
+              {currentPage.title}
+            </h1>
+            <p className="text-xs text-gray-500">{currentPage.subtitle}</p>
           </div>
-          <svg
-            className="h-4 w-4 text-slate-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        </div>
+
+        {/* Center Section - Search */}
+        <div className="flex flex-1 items-center justify-center px-4">
+          <div
+            className={`relative flex w-full max-w-md items-center transition-all duration-300 ${
+              searchFocused ? "max-w-lg" : ""
+            }`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+            <div
+              className={`relative flex w-full items-center rounded-xl border transition-all duration-300 ${
+                searchFocused
+                  ? "border-indigo-300 bg-white shadow-lg shadow-indigo-500/10 ring-4 ring-indigo-500/10"
+                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100/80"
+              }`}
+            >
+              <Search
+                className={`ml-3 h-4 w-4 transition-colors ${
+                  searchFocused ? "text-indigo-500" : "text-gray-400"
+                }`}
+              />
+              <input
+                type="text"
+                placeholder="Search packages, receipts, routes..."
+                className="h-10 flex-1 bg-transparent px-3 text-sm text-gray-900 placeholder-gray-400 outline-none"
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+              />
+              {/* Keyboard shortcut hint */}
+              <div
+                className={`mr-3 hidden items-center gap-1 transition-opacity md:flex ${
+                  searchFocused ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <kbd className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-[10px] font-medium text-gray-500">
+                  <Command className="h-3 w-3" />
+                </kbd>
+                <kbd className="flex h-5 min-w-[20px] items-center justify-center rounded border border-gray-300 bg-white text-[10px] font-medium text-gray-500">
+                  K
+                </kbd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section - Actions */}
+        <div className="flex items-center gap-2">
+          {/* AI Assistant Button */}
+          <button className="group relative hidden items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/40 sm:flex">
+            <Sparkles className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+            <span>Ask AI</span>
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-50" />
+          </button>
+
+          {/* Notification Button */}
+          <button className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 hover:shadow-md">
+            <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110" />
+            {/* Notification badge with pulse */}
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+              <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-red-500 to-rose-500 text-[10px] font-bold text-white shadow-lg">
+                3
+              </span>
+            </span>
+          </button>
+
+          {/* User Menu */}
+          <button className="group relative flex h-10 items-center gap-2 rounded-xl border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-md">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-inner">
+              <User className="h-4 w-4 text-white" />
+            </div>
+            <span className="hidden text-sm font-medium text-gray-700 lg:block">
+              John
+            </span>
+            {/* Online status indicator */}
+            <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500" />
+          </button>
+        </div>
       </div>
     </header>
   );
