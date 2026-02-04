@@ -10,7 +10,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getDashboardMetrics, ApiError } from "@/lib/api";
+import { getDashboardMetrics, ApiError, getPackages } from "@/lib/api";
 import {
   Package,
   TrendingUp,
@@ -58,6 +58,7 @@ function StatCard({ icon: Icon, title, value, color }: StatCardProps) {
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [highPriorityCount, setHighPriorityCount] = useState(0);
   const [metrics, setMetrics] = useState({
     total_packages: 0,
     total_receipts: 0,
@@ -70,11 +71,22 @@ export default function Home() {
       try {
         setIsLoading(true);
         setError(null);
+        
+        // Fetch dashboard metrics
         const data = await getDashboardMetrics();
         setMetrics({
           ...data,
           sustainability_score: data.sustainability_score ?? 0,
         });
+        
+        // Fetch packages and count high-priority ones
+        const packagesResponse = await getPackages();
+        const packages = packagesResponse.packages || [];
+        const highPriorityPackages = packages.filter((pkg) => {
+          const urgency = pkg.urgency?.toLowerCase() || "low";
+          return urgency === "high" || urgency === "critical";
+        });
+        setHighPriorityCount(highPriorityPackages.length);
       } catch (err) {
         const errorMessage =
           err instanceof ApiError ? err.message : "Failed to load dashboard metrics";
@@ -92,11 +104,22 @@ export default function Home() {
     try {
       setIsLoading(true);
       setError(null);
+      
+      // Fetch dashboard metrics
       const data = await getDashboardMetrics();
       setMetrics({
         ...data,
         sustainability_score: data.sustainability_score ?? 0,
       });
+      
+      // Fetch packages and count high-priority ones
+      const packagesResponse = await getPackages();
+      const packages = packagesResponse.packages || [];
+      const highPriorityPackages = packages.filter((pkg) => {
+        const urgency = pkg.urgency?.toLowerCase() || "low";
+        return urgency === "high" || urgency === "critical";
+      });
+      setHighPriorityCount(highPriorityPackages.length);
     } catch (err) {
       const errorMessage =
         err instanceof ApiError ? err.message : "Failed to load dashboard metrics";
@@ -163,8 +186,8 @@ export default function Home() {
               />
               <StatCard
                 icon={AlertTriangle}
-                title="Alerts"
-                value="0"
+                title="High Priority Alerts"
+                value={highPriorityCount}
                 color="bg-gradient-to-br from-amber-500 to-orange-500"
               />
               <StatCard
