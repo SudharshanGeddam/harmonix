@@ -59,7 +59,7 @@ export default function HelpPage() {
     <div className="space-y-6">
       {/* Page header */}
       <header>
-        <h1 className="text-2xl font-bold text-slate-900">Help & Support</h1>
+        <h1 className="text-2xl font-bold text-white">Help & Support</h1>
         <p className="mt-1 text-sm text-slate-500">
           Get help with EthicTrack features and contact our support team
         </p>
