@@ -111,33 +111,33 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`group relative flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
+              className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "bg-gradient-to-r from-indigo-600/20 to-purple-600/10 text-white"
-                  : "text-slate-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-white/10 text-white"
+                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
               {/* Active indicator - left accent bar */}
               <div
-                className={`absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r-full transition-all duration-300 ${
+                className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-b from-indigo-400 to-purple-500 shadow-lg shadow-indigo-500/50"
+                    ? "bg-gradient-to-b from-indigo-400 to-indigo-500 shadow-lg shadow-indigo-500/40"
                     : "scale-y-0 bg-slate-600 group-hover:scale-y-50 group-hover:bg-slate-500"
                 }`}
               />
 
               {/* Icon container */}
               <div
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-all duration-300 ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30"
-                    : "bg-slate-800/50 group-hover:bg-slate-700/50"
+                    ? "bg-indigo-600/40"
+                    : "bg-slate-800/40 group-hover:bg-slate-700/50"
                 }`}
               >
                 <Icon
-                  className={`h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110 ${
-                    isActive ? "text-white" : "text-slate-400 group-hover:text-slate-200"
+                  className={`h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110 ${
+                    isActive ? "text-indigo-300" : "text-slate-400 group-hover:text-slate-200"
                   }`}
                 />
               </div>
@@ -147,7 +147,7 @@ export default function Sidebar() {
                 <span className="truncate">{item.name}</span>
                 {item.description && (
                   <span
-                    className={`truncate text-[10px] transition-colors duration-300 ${
+                    className={`truncate text-[10px] transition-colors duration-200 ${
                       isActive ? "text-slate-400" : "text-slate-600 group-hover:text-slate-500"
                     }`}
                   >
@@ -158,9 +158,9 @@ export default function Sidebar() {
 
               {/* Arrow indicator for active */}
               <ChevronRight
-                className={`h-4 w-4 transition-all duration-300 ${
+                className={`h-4 w-4 transition-all duration-200 ${
                   isActive
-                    ? "text-indigo-400 opacity-100"
+                    ? "text-indigo-300 opacity-100"
                     : "text-slate-600 opacity-0 group-hover:opacity-100"
                 }`}
               />
@@ -186,14 +186,14 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
+              className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-white/10 text-white"
                   : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
               }`}
             >
               <Icon
-                className={`h-5 w-5 shrink-0 transition-transform duration-300 group-hover:scale-110 ${
+                className={`h-5 w-5 shrink-0 transition-transform duration-200 group-hover:scale-110 ${
                   isActive ? "text-slate-300" : "text-slate-500 group-hover:text-slate-400"
                 }`}
               />

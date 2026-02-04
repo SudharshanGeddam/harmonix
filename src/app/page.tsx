@@ -203,7 +203,7 @@ export default function Home() {
   return (
     <div className="space-y-8">
       {/* Page header */}
-      <header className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-8">
+      <header className="relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-6">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -left-4 top-0 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl" />
@@ -239,14 +239,14 @@ export default function Home() {
 
           {/* Quick action buttons */}
           <div className="flex items-center gap-3">
-            <button className="group flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2.5 text-sm font-medium text-white ring-1 ring-white/20 backdrop-blur-sm transition-all hover:bg-white/20 hover:ring-white/30">
+            <button className="group flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/20 hover:border-white/30">
               <Radio className="h-4 w-4" />
               <span>Broadcast</span>
             </button>
-            <button className="group flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40">
+            <button className="group flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition-all duration-200 hover:bg-indigo-700 hover:shadow-xl">
               <Sparkles className="h-4 w-4" />
               <span>AI Insights</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
           </div>
         </div>
@@ -298,10 +298,10 @@ export default function Home() {
       <div className="grid gap-6 lg:grid-cols-5">
         {/* Recent Activity - Takes 3 columns */}
         <section aria-labelledby="activity-heading" className="lg:col-span-3">
-          <div className="overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm">
-            <div className="flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-slate-50 to-white px-6 py-4">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-100 bg-slate-50/50 px-6 py-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 shadow-lg shadow-slate-900/20">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-700 shadow-sm">
                   <Clock className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -316,9 +316,9 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <button className="group flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900">
+              <button className="group flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">
                 View all
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </button>
             </div>
             <div className="divide-y divide-gray-100">
@@ -328,11 +328,11 @@ export default function Home() {
                 return (
                   <div
                     key={activity.id}
-                    className="group flex items-center gap-4 px-6 py-4 transition-all hover:bg-gradient-to-r hover:from-slate-50 hover:to-transparent"
+                    className="group flex items-center gap-4 px-6 py-4 transition-all duration-200 hover:bg-slate-50/60"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-lg ${style.icon}`}
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg shadow-sm ${style.icon}`}
                     >
                       <Icon className="h-5 w-5" />
                     </div>
@@ -364,7 +364,7 @@ export default function Home() {
                 );
               })}
             </div>
-            <div className="border-t border-gray-100 bg-gradient-to-r from-slate-50 to-white px-6 py-3">
+            <div className="border-t border-gray-100 bg-slate-50/30 px-6 py-3">
               <p className="text-center text-xs text-slate-500">
                 Showing 5 of 127 activities
               </p>
@@ -374,10 +374,10 @@ export default function Home() {
 
         {/* Alerts Section - Takes 2 columns */}
         <section aria-labelledby="alerts-heading" className="lg:col-span-2">
-          <div className="overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-sm">
-            <div className="flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-red-50 to-white px-6 py-4">
+          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-gray-100 bg-red-50/40 px-6 py-4">
               <div className="flex items-center gap-3">
-                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-rose-500 shadow-lg shadow-red-500/30">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 shadow-sm">
                   <AlertTriangle className="h-5 w-5 text-white" />
                   {/* Pulse indicator */}
                   <span className="absolute -right-1 -top-1 flex h-3 w-3">
@@ -406,11 +406,11 @@ export default function Home() {
                 return (
                   <div
                     key={alert.id}
-                    className={`group relative px-6 py-4 transition-all hover:bg-gradient-to-r hover:from-slate-50 hover:to-transparent border-l-4 ${styles.border}`}
+                    className={`group relative px-6 py-4 transition-all duration-200 hover:bg-slate-50/60 border-l-4 ${styles.border}`}
                   >
                     <div className="flex items-start gap-3">
                       <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${styles.icon}`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${styles.icon}`}
                       >
                         <Icon className="h-4 w-4" />
                       </div>

@@ -107,7 +107,7 @@ export default function TrackerPage() {
             placeholder="Search by Package ID or destination"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-100"
+            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 placeholder-slate-400 transition-colors duration-200 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
             aria-label="Search packages"
           />
         </div>
@@ -117,7 +117,7 @@ export default function TrackerPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="appearance-none rounded-lg border border-gray-200 bg-white py-2.5 pl-4 pr-10 text-sm font-medium text-slate-700 transition-colors focus:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-100"
+            className="appearance-none rounded-lg border border-gray-200 bg-white py-2.5 pl-4 pr-10 text-sm font-medium text-slate-700 transition-colors duration-200 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200"
             aria-label="Filter by status"
           >
             <option value="all">Status: All</option>
@@ -134,18 +134,18 @@ export default function TrackerPage() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
             {/* Sticky header */}
-            <thead className="sticky top-0 z-10 border-b border-gray-200 bg-slate-50">
+            <thead className="sticky top-0 z-10 border-b border-gray-200 bg-slate-50/95 backdrop-blur-sm">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
                   Package ID
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
                   Destination
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
                   Last Updated
                 </th>
               </tr>

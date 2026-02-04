@@ -57,7 +57,7 @@ export default function SettingsPage() {
           return (
             <button
               key={section.title}
-              className="group relative flex flex-col items-start gap-4 rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+              className="group relative flex flex-col items-start gap-4 rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-colors group-hover:bg-slate-200">
                 <Icon className="h-6 w-6 text-slate-600" />
@@ -83,7 +83,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Account section */}
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-slate-700 to-slate-900 shadow-lg">
             <span className="text-xl font-bold text-white">JD</span>

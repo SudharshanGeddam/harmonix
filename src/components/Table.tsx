@@ -23,7 +23,7 @@ interface TableProps {
 
 export function Table({ children, className = "" }: TableProps) {
   return (
-    <div className={`overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm ${className}`}>
+    <div className={`overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm ${className}`}>
       <table className="w-full min-w-[640px]">{children}</table>
     </div>
   );
@@ -36,7 +36,7 @@ interface TableHeaderProps {
 
 export function TableHeader({ children }: TableHeaderProps) {
   return (
-    <thead className="border-b border-gray-200 bg-slate-50/80">
+    <thead className="border-b border-gray-200 bg-slate-50/80 backdrop-blur-sm">
       {children}
     </thead>
   );
@@ -67,7 +67,7 @@ export function TableRow({
 }: TableRowProps) {
   return (
     <tr
-      className={`transition-colors hover:bg-slate-50 ${
+      className={`transition-colors duration-200 hover:bg-slate-50 ${
         zebra && index % 2 === 1 ? "bg-slate-50/50" : "bg-white"
       } ${className}`}
     >
@@ -96,7 +96,7 @@ export function TableHead({
 
   return (
     <th
-      className={`whitespace-nowrap px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-slate-500 ${alignStyles[align]} ${className}`}
+      className={`whitespace-nowrap px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-slate-600 ${alignStyles[align]} ${className}`}
     >
       {children}
     </th>

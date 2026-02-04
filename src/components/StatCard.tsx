@@ -180,7 +180,7 @@ export default function StatCard({
   const ChangeIcon = changeConfig[changeType].icon;
 
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white p-6 shadow-sm transition-all duration-500 hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 hover:border-gray-300/80">
+    <article className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:-translate-y-1">
       {/* Gradient accent background */}
       <div
         className={`absolute inset-0 bg-gradient-to-br ${styles.accentBg} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}

@@ -172,10 +172,10 @@ export default function MapVisualizationPage() {
 
         {/* Map controls (UI only) */}
         <div className="absolute right-4 top-4 flex flex-col gap-2">
-          <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900">
+          <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-slate-600 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200">
             <span className="text-lg font-bold">+</span>
           </button>
-          <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900">
+          <button className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-slate-600 shadow-sm transition-all duration-200 hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200">
             <span className="text-lg font-bold">−</span>
           </button>
         </div>
@@ -234,7 +234,7 @@ export default function MapVisualizationPage() {
         </div>
 
         {/* Active Routes List */}
-        <div className="flex-1 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+        <div className="flex-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <div className="border-b border-gray-100 px-5 py-4">
             <h2 className="text-sm font-semibold text-slate-900">
               Active Routes

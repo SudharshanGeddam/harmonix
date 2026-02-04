@@ -67,7 +67,7 @@ export default function ReceiptCard({
   const StatusIcon = config.icon;
 
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:border-slate-300">
+    <article className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:-translate-y-1">
       {/* Top accent bar */}
       <div
         className={`h-1 w-full ${
@@ -81,10 +81,10 @@ export default function ReceiptCard({
 
       <div className="p-5">
         {/* Header */}
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl ${config.bgColor} transition-transform duration-300 group-hover:scale-110`}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg ${config.bgColor} transition-transform duration-300 group-hover:scale-110`}
             >
               <Shield className={`h-5 w-5 ${config.color}`} />
             </div>
@@ -143,7 +143,7 @@ export default function ReceiptCard({
         <div className="mt-5 flex items-center gap-3">
           <button
             onClick={onVerify}
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-slate-800 active:scale-[0.98] disabled:opacity-50"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 active:scale-95 disabled:opacity-50"
           >
             <Shield className="h-4 w-4" />
             Verify

@@ -64,9 +64,9 @@ export default function HelpPage() {
       </header>
 
       {/* Quick help banner */}
-      <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
+      <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100">
+          <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-blue-100">
             <HelpCircle className="h-7 w-7 text-blue-600" />
           </div>
           <div>
@@ -113,7 +113,7 @@ export default function HelpPage() {
             return (
               <button
                 key={resource.title}
-                className="group flex flex-col items-center gap-3 rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-all hover:border-slate-300 hover:shadow-md"
+                className="group flex flex-col items-center gap-3 rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-md"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-colors group-hover:bg-slate-200">
                   <Icon className="h-6 w-6 text-slate-600" />
@@ -147,7 +147,7 @@ export default function HelpPage() {
             return (
               <div
                 key={channel.title}
-                className="flex items-center gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+                className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-gray-300"
               >
                 <div
                   className={`flex h-12 w-12 items-center justify-center rounded-xl ${

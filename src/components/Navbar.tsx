@@ -40,12 +40,12 @@ export default function Navbar() {
   const currentPage = pageTitles[pathname] || { title: "EthicTrack", subtitle: "Supply chain platform" };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200/80 bg-white/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
       <div className="flex h-16 items-center justify-between gap-4 px-6">
         {/* Left Section - Page Title */}
         <div className="flex items-center gap-4">
           {/* Mobile menu button (hidden on desktop) */}
-          <button className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700 lg:hidden">
+          <button className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 lg:hidden focus:outline-none focus:ring-2 focus:ring-slate-200">
             <Menu className="h-5 w-5" />
           </button>
 
@@ -64,16 +64,16 @@ export default function Navbar() {
               searchFocused ? "max-w-lg" : ""
             }`}
           >
-            <div
-              className={`relative flex w-full items-center rounded-xl border transition-all duration-300 ${
+              <div
+              className={`relative flex w-full items-center rounded-lg border transition-all duration-200 ${
                 searchFocused
-                  ? "border-indigo-300 bg-white shadow-lg shadow-indigo-500/10 ring-4 ring-indigo-500/10"
-                  : "border-gray-200 bg-gray-50/80 hover:bg-gray-100/80"
+                  ? "border-slate-400 bg-white shadow-md ring-2 ring-slate-200"
+                  : "border-gray-200 bg-slate-50/80 hover:bg-slate-100/80"
               }`}
             >
               <Search
-                className={`ml-3 h-4 w-4 transition-colors ${
-                  searchFocused ? "text-indigo-500" : "text-gray-400"
+                className={`ml-3 h-4 w-4 transition-colors duration-200 ${
+                  searchFocused ? "text-slate-600" : "text-gray-400"
                 }`}
               />
               <input
@@ -103,15 +103,13 @@ export default function Navbar() {
         {/* Right Section - Actions */}
         <div className="flex items-center gap-2">
           {/* AI Assistant Button */}
-          <button className="group relative hidden items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/40 sm:flex">
-            <Sparkles className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+          <button className="group hidden items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md sm:flex">
+            <Sparkles className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
             <span>Ask AI</span>
-            {/* Shimmer effect */}
-            <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-50" />
           </button>
 
           {/* Notification Button */}
-          <button className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700 hover:shadow-md">
+          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:text-gray-900 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200">
             <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110" />
             {/* Notification badge with pulse */}
             <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
@@ -123,8 +121,8 @@ export default function Navbar() {
           </button>
 
           {/* User Menu */}
-          <button className="group relative flex h-10 items-center gap-2 rounded-xl border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-md">
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 shadow-inner">
+          <button className="group relative flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-slate-700 shadow-sm">
               <User className="h-4 w-4 text-white" />
             </div>
             <span className="hidden text-sm font-medium text-gray-700 lg:block">
