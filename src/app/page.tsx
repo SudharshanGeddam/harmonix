@@ -11,7 +11,11 @@
  * - Active alerts with severity indicators
  * - Quick stats ribbon
  */
+"use client";
+
+import { useState, useEffect } from "react";
 import StatCard from "@/components/StatCard";
+import { getDashboardMetrics, ApiError } from "@/lib/api";
 import {
   Package,
   Route,
@@ -200,6 +204,76 @@ const statusStyles = {
 };
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [metrics, setMetrics] = useState({
+    total_packages: 0,
+    total_receipts: 0,
+    recent_activity: "",
+    sustainability_score: 0,
+  });
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await getDashboardMetrics();
+        setMetrics(data);
+      } catch (err) {
+        const errorMessage = err instanceof ApiError 
+          ? err.message 
+          : "Failed to load dashboard metrics";
+        setError(errorMessage);
+        console.error("Error fetching metrics:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMetrics();
+  }, []);
+
+  // Prepare stats with real data
+  const stats = [
+    {
+      title: "Total Packages",
+      value: metrics.total_packages.toLocaleString(),
+      change: "+12.5%",
+      changeType: "positive" as const,
+      icon: Package,
+      gradient: "blue" as const,
+      sparklineData: [45, 52, 49, 60, 55, 68, 72, 80, 75, 85, 90, 95],
+    },
+    {
+      title: "Total Receipts",
+      value: metrics.total_receipts.toLocaleString(),
+      change: "+8.2%",
+      changeType: "positive" as const,
+      icon: Route,
+      gradient: "emerald" as const,
+      sparklineData: [20, 25, 22, 30, 28, 35, 32, 40, 38, 42, 45, 48],
+    },
+    {
+      title: "Alerts Detected",
+      value: "23",
+      change: "+5",
+      changeType: "negative" as const,
+      icon: AlertTriangle,
+      gradient: "amber" as const,
+      sparklineData: [8, 12, 10, 15, 18, 14, 20, 16, 22, 19, 25, 23],
+    },
+    {
+      title: "Sustainability Score",
+      value: `${metrics.sustainability_score || 0}%`,
+      change: "+2.1%",
+      changeType: "positive" as const,
+      icon: CheckCircle2,
+      gradient: "violet" as const,
+      sparklineData: [150, 180, 165, 200, 190, 220, 210, 250, 240, 280, 300, 320],
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {/* Page header */}
@@ -278,20 +352,37 @@ export default function Home() {
         <h2 id="stats-heading" className="sr-only">
           Key Statistics
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <StatCard
-              key={stat.title}
-              title={stat.title}
-              value={stat.value}
-              change={stat.change}
-              changeType={stat.changeType}
-              icon={stat.icon}
-              gradient={stat.gradient}
-              sparklineData={stat.sparklineData}
-            />
-          ))}
-        </div>
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+            <p className="font-semibold">Failed to load dashboard metrics</p>
+            <p className="text-xs text-red-600">{error}</p>
+          </div>
+        )}
+        {isLoading ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="h-48 rounded-xl border border-gray-200 bg-white animate-pulse"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((stat) => (
+              <StatCard
+                key={stat.title}
+                title={stat.title}
+                value={stat.value}
+                change={stat.change}
+                changeType={stat.changeType}
+                icon={stat.icon}
+                gradient={stat.gradient}
+                sparklineData={stat.sparklineData}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Main content grid */}
