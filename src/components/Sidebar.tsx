@@ -13,8 +13,12 @@
  */
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+import { useAuth } from "@/lib/AuthProvider";
 import {
   LayoutDashboard,
   Package,
@@ -69,6 +73,27 @@ const bottomNavItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user } = useAuth();
+  const [isLoggingOut, setIsLoggingOut] = React.useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await supabase.auth.signOut();
+      router.push("/login");
+    } catch (error) {
+      console.error("[Sidebar] Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
+  const userEmail = user?.email || "User";
+  const avatarText = userEmail
+    .split("@")[0]
+    .substring(0, 2)
+    .toUpperCase();
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
@@ -204,12 +229,12 @@ export default function Sidebar() {
       </div>
 
       {/* User Profile */}
-      <div className="shrink-0 border-t border-white/10 p-4">
-        <div className="group flex items-center gap-3 rounded-xl bg-white/5 p-3 transition-all duration-300 hover:bg-white/10">
+      <div className="shrink-0 border-t border-orange-500/20 p-4">
+        <div className="group flex items-center gap-3 rounded-xl bg-orange-500/10 p-3 transition-all duration-300 hover:bg-orange-500/20">
           {/* Avatar */}
           <div className="relative">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20 ring-2 ring-white/10">
-              <span className="text-sm font-semibold text-white">JD</span>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/20 ring-2 ring-white/10">
+              <span className="text-sm font-semibold text-white">{avatarText}</span>
             </div>
             {/* Online indicator */}
             <span className="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-slate-900 bg-emerald-500 shadow-lg shadow-emerald-500/50" />
@@ -218,19 +243,21 @@ export default function Sidebar() {
           {/* User info */}
           <div className="flex flex-1 flex-col overflow-hidden">
             <span className="truncate text-sm font-semibold text-white">
-              John Doe
+              {userEmail.split("@")[0]}
             </span>
-            <span className="truncate text-xs text-slate-500">
-              Admin Account
+            <span className="truncate text-xs text-orange-200/60">
+              {userEmail}
             </span>
           </div>
 
           {/* Logout button */}
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-all duration-300 hover:bg-white/10 hover:text-white"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-orange-200/60 transition-all duration-300 hover:bg-orange-500/30 hover:text-orange-200 disabled:opacity-50 disabled:cursor-not-allowed group"
             aria-label="Sign out"
           >
-            <LogOut className="h-4 w-4" />
+            <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
           </button>
         </div>
       </div>
