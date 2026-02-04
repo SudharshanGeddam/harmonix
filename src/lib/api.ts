@@ -54,6 +54,11 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
+export interface PackagesResponse {
+  packages: Package[];
+  count: number;
+}
+
 // ============================================================================
 // Error Handling
 // ============================================================================
@@ -145,9 +150,8 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
 /**
  * Fetch all packages with tracking information
  */
-export async function getPackages(): Promise<Package[]> {
-  const response = await apiGet<Package[]>('/api/packages');
-  return Array.isArray(response) ? response : [];
+export async function getPackages(): Promise<PackagesResponse> {
+  return await apiGet<PackagesResponse>('/api/packages');
 }
 
 /**
@@ -166,16 +170,10 @@ export async function processPackage(
   payload: ProcessPackagePayload
 ): Promise<ProcessPackageResponse> {
   try {
-    const url = `${API_BASE_URL}/api/packages/${id}/process`;
-    console.log(`[API] POST ${url}`, payload);
-    
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await fetch(`${API_BASE_URL}/api/packages/${id}/process`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      cache: 'no-store',
     });
 
     return handleResponse<ProcessPackageResponse>(response);

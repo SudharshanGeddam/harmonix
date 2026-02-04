@@ -176,9 +176,9 @@ function ReceivePackageModal({
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select sender type</option>
-              <option value="individual">Individual</option>
-              <option value="business">Business</option>
+              <option value="hospital">Hospital</option>
               <option value="ngo">NGO</option>
+              <option value="retail">Retail</option>
               <option value="government">Government</option>
             </select>
           </div>
@@ -253,8 +253,8 @@ export default function PackageTrackerPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await getPackages();
-        setPackages(data);
+        const response = await getPackages();
+        setPackages(response.packages);
       } catch (err) {
         const errorMessage =
           err instanceof ApiError
@@ -287,17 +287,22 @@ export default function PackageTrackerPage() {
     
     try {
       setIsSubmitting(true);
-      await processPackage(selectedPackageId, {
-        status: "received",
-        weight: formData.weight,
+      const payload = {
+        weight: parseFloat(formData.weight),
         fragile: formData.fragile,
         sender_type: formData.sender_type,
-        claimed_product_type: formData.claimed_product_type,
-      });
+        claimed_product_type: formData.claimed_product_type || null,
+      };
+      console.log("Sending payload:", payload);
+      await processPackage(selectedPackageId, payload);
       
       // Refresh packages list
-      const updatedPackages = await getPackages();
-      setPackages(updatedPackages);
+      const response = await getPackages();
+      setPackages(response.packages);
+      
+      // Close modal and clear selected package
+      setIsReceiveModalOpen(false);
+      setSelectedPackageId(null);
     } finally {
       setIsSubmitting(false);
     }

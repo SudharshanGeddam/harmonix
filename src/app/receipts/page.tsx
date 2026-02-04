@@ -4,33 +4,33 @@
  * Verifiable delivery and ethical compliance records.
  * Displays a grid of receipt cards with verification status.
  *
- * Fetches real data from API with loading and error states.
+ * Fetches real data from backend API.
  */
 "use client";
 
 import { useState, useEffect } from "react";
 import ReceiptCard, { VerificationStatus } from "@/components/ReceiptCard";
 import { getReceipts, Receipt as ReceiptType, ApiError } from "@/lib/api";
-import { Shield, CheckCircle2, Clock } from "lucide-react";
+import { Shield, CheckCircle2, Clock, Loader2 } from "lucide-react";
 
+// Map API status to display status
 function mapReceiptStatus(status?: string): VerificationStatus {
-  const normalizedStatus = (status || "pending").toLowerCase();
-  if (normalizedStatus === "verified" || normalizedStatus === "completed") {
-    return "verified";
-  }
+  if (!status) return "pending";
+  const normalized = status.toLowerCase();
+  if (normalized === "verified" || normalized === "completed") return "verified";
   return "pending";
 }
 
+// Format date for display
 function formatDate(dateString?: string): string {
   if (!dateString) return "N/A";
   try {
     return new Date(dateString).toLocaleString("en-US", {
-      year: "numeric",
       month: "short",
       day: "numeric",
+      year: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-      meridiem: "short",
     });
   } catch {
     return dateString;
@@ -38,23 +38,42 @@ function formatDate(dateString?: string): string {
 }
 
 export default function ReceiptsPage() {
+  const [receipts, setReceipts] = useState<ReceiptType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [receipts, setReceipts] = useState<ReceiptType[]>([]);
 
+  // Fetch receipts on mount
   useEffect(() => {
     const fetchReceipts = async () => {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await getReceipts();
-        setReceipts(data);
+        const response = await getReceipts();
+
+        // DEBUG: Log API response
+        console.log("[ReceiptsPage] API response:", response);
+
+        // Extract receipts array - handle different response shapes
+        let receiptsArray: ReceiptType[] = [];
+        if (Array.isArray(response)) {
+          receiptsArray = response;
+        } else if (response && typeof response === "object") {
+          const resp = response as Record<string, unknown>;
+          if (Array.isArray(resp.data)) {
+            receiptsArray = resp.data as ReceiptType[];
+          } else if (resp.data && typeof resp.data === "object" && Array.isArray((resp.data as Record<string, unknown>).data)) {
+            receiptsArray = (resp.data as Record<string, unknown>).data as ReceiptType[];
+          }
+        }
+
+        // DEBUG: Log extracted receipts
+        console.log("[ReceiptsPage] Extracted receipts array:", receiptsArray);
+
+        setReceipts(receiptsArray);
       } catch (err) {
-        const errorMessage = err instanceof ApiError 
-          ? err.message 
-          : "Failed to load receipts";
+        const errorMessage = err instanceof ApiError ? err.message : "Failed to load receipts";
         setError(errorMessage);
-        console.error("Error fetching receipts:", err);
+        console.error("[ReceiptsPage] Error fetching receipts:", err);
       } finally {
         setIsLoading(false);
       }
@@ -63,12 +82,8 @@ export default function ReceiptsPage() {
     fetchReceipts();
   }, []);
 
-  const verifiedCount = receipts.filter(
-    (r) => mapReceiptStatus(r.category) === "verified"
-  ).length;
-  const pendingCount = receipts.filter(
-    (r) => mapReceiptStatus(r.category) === "pending"
-  ).length;
+  const verifiedCount = receipts.filter((r) => mapReceiptStatus(r.category) === "verified").length;
+  const pendingCount = receipts.filter((r) => mapReceiptStatus(r.category) === "pending").length;
 
   return (
     <div className="space-y-6">
@@ -113,24 +128,18 @@ export default function ReceiptsPage() {
         </div>
       </div>
 
-      {/* Error state */}
-      {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-          <p className="font-semibold">Failed to load receipts</p>
-          <p className="text-xs text-red-600">{error}</p>
-        </div>
-      )}
-
       {/* Receipts grid */}
       <section aria-label="Receipts grid">
         {isLoading ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="h-48 rounded-xl border border-gray-200 bg-white animate-pulse"
-              />
-            ))}
+          <div className="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white py-12">
+            <Loader2 className="h-12 w-12 text-slate-400 animate-spin mb-3" />
+            <p className="text-sm font-medium text-slate-900">Loading receipts...</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center rounded-xl border border-red-200 bg-red-50 py-12">
+            <Shield className="h-12 w-12 text-red-300 mb-3" />
+            <p className="text-sm font-medium text-red-600">Failed to load receipts</p>
+            <p className="text-sm text-slate-500 mt-1">{error}</p>
           </div>
         ) : receipts.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white py-12">
@@ -146,10 +155,10 @@ export default function ReceiptsPage() {
               <ReceiptCard
                 key={receipt.id}
                 transactionId={receipt.id}
-                timestamp={formatDate(receipt.created_at)}
-                proofSummary={receipt.category || "Transaction record"}
+                timestamp={formatDate(receipt.created_at || receipt.date)}
+                proofSummary={receipt.category || receipt.merchant || "Transaction record"}
                 status={mapReceiptStatus(receipt.category)}
-                category={`$${receipt.amount || 0}`}
+                category={receipt.amount ? `$${receipt.amount}` : receipt.category || "N/A"}
                 onVerify={() => {
                   // UI only - no action
                 }}
@@ -160,13 +169,11 @@ export default function ReceiptsPage() {
       </section>
 
       {/* Results count */}
-      {!isLoading && (
-        <p className="text-sm text-slate-500">
-          Showing{" "}
-          <span className="font-medium text-slate-700">{receipts.length}</span>{" "}
-          receipts
-        </p>
-      )}
+      <p className="text-sm text-slate-500">
+        Showing{" "}
+        <span className="font-medium text-slate-700">{receipts.length}</span>{" "}
+        receipts
+      </p>
     </div>
   );
 }
