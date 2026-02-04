@@ -14,12 +14,20 @@ export interface DashboardMetrics {
 
 export interface Package {
   id: string;
-  tracking_number: string;
+  package_id?: string;
   status: string;
-  carrier: string;
-  estimated_delivery?: string;
-  current_location?: string;
+  priority_label?: string;
+  category?: string;
+  destination?: string;
+  sender_type?: string;
+  fragile?: boolean;
+  weight?: number;
+  last_updated?: string;
   created_at?: string;
+  tracking_number?: string;
+  current_location?: string;
+  estimated_delivery?: string;
+  carrier?: string;
   updated_at?: string;
 }
 

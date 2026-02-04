@@ -273,8 +273,8 @@ export default function PackageTrackerPage() {
   // Filter packages based on search
   const filteredPackages = packages.filter((pkg) =>
     pkg.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    pkg.tracking_number?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    pkg.current_location?.toLowerCase().includes(searchQuery.toLowerCase())
+    pkg.destination?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    pkg.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleReceivePackage = (packageId: string) => {
@@ -285,6 +285,7 @@ export default function PackageTrackerPage() {
   const handleReceiveSubmit = async (formData: ReceivePackageFormData) => {
     if (!selectedPackageId) return;
     
+    console.log("[handleReceiveSubmit] Starting submission...");
     try {
       setIsSubmitting(true);
       const payload = {
@@ -293,17 +294,41 @@ export default function PackageTrackerPage() {
         sender_type: formData.sender_type,
         claimed_product_type: formData.claimed_product_type || null,
       };
-      console.log("Sending payload:", payload);
-      await processPackage(selectedPackageId, payload);
+      console.log("[handleReceiveSubmit] Sending payload:", payload);
       
-      // Refresh packages list
-      const response = await getPackages();
-      setPackages(response.packages);
+      // Send PATCH request to process package
+      console.log("[handleReceiveSubmit] Calling processPackage...");
+      const processResponse = await processPackage(selectedPackageId, payload);
+      console.log("[handleReceiveSubmit] Process response:", processResponse);
       
-      // Close modal and clear selected package
+      // Wait a moment for backend to be consistent
+      console.log("[handleReceiveSubmit] Waiting 500ms...");
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Refresh packages list from backend
+      console.log("[handleReceiveSubmit] Calling getPackages...");
+      const refreshed = await getPackages();
+      console.log("[handleReceiveSubmit] getPackages response:", refreshed);
+      console.log("[handleReceiveSubmit] Refetched packages:", refreshed.packages);
+      console.log("[handleReceiveSubmit] Previous packages count:", packages.length);
+      console.log("[handleReceiveSubmit] New packages count:", refreshed.packages.length);
+      
+      console.log("[handleReceiveSubmit] Updating state with new packages...");
+      setPackages(refreshed.packages);
+      console.log("[handleReceiveSubmit] State updated");
+      
+      // Close modal and clear selected package only after successful refresh
+      console.log("[handleReceiveSubmit] Closing modal...");
       setIsReceiveModalOpen(false);
       setSelectedPackageId(null);
+      console.log("[handleReceiveSubmit] Submission complete!");
+    } catch (err) {
+      console.error("[handleReceiveSubmit] Caught error:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to process package";
+      console.error("[handleReceiveSubmit] Error message:", errorMessage);
+      throw new Error(errorMessage);
     } finally {
+      console.log("[handleReceiveSubmit] Finally block - setting isSubmitting to false");
       setIsSubmitting(false);
     }
   };
@@ -324,7 +349,7 @@ export default function PackageTrackerPage() {
           <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
           <input
             type="search"
-            placeholder="Search by ID, tracking number, or location..."
+            placeholder="Search by ID, destination, or category..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             disabled={isLoading}
@@ -350,9 +375,9 @@ export default function PackageTrackerPage() {
           <TableHeader>
             <tr>
               <TableHead>Package ID</TableHead>
-              <TableHead>Tracking</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Urgency</TableHead>
+              <TableHead>Destination</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Priority</TableHead>
               <TableHead>Sender Type</TableHead>
               <TableHead>Fragile</TableHead>
               <TableHead>Status</TableHead>
@@ -387,22 +412,22 @@ export default function PackageTrackerPage() {
                     <span className="font-semibold text-gray-900">{pkg.id}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-gray-600 text-sm">{pkg.tracking_number || "N/A"}</span>
+                    <span className="text-gray-600 text-sm">{pkg.destination || "Not specified"}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-gray-600">{pkg.current_location || "Not specified"}</span>
+                    <span className="text-gray-600 text-sm">{pkg.category || "N/A"}</span>
                   </TableCell>
                   <TableCell>
-                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${getUrgencyColor(pkg.estimated_delivery)}`}>
-                      {getUrgencyLabel(pkg.estimated_delivery)}
-                    </span>
+                    <Badge variant={pkg.priority_label === "high" ? "danger" : pkg.priority_label === "medium" ? "warning" : "success"} dot>
+                      {pkg.priority_label || "Normal"}
+                    </Badge>
                   </TableCell>
                   <TableCell>
-                    <span className="text-gray-600 text-sm capitalize">{pkg.carrier || "Not specified"}</span>
+                    <span className="text-gray-600 text-sm capitalize">{pkg.sender_type || "Not specified"}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={pkg.status === "fragile" ? "warning" : "success"} dot>
-                      {pkg.status === "fragile" ? "Yes" : "No"}
+                    <Badge variant={pkg.fragile ? "warning" : "success"} dot>
+                      {pkg.fragile ? "Yes" : "No"}
                     </Badge>
                   </TableCell>
                   <TableCell>
