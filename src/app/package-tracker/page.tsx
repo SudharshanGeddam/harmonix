@@ -399,7 +399,6 @@ export default function PackageTrackerPage() {
             <tr>
               <TableHead>Package ID</TableHead>
               <TableHead>Destination</TableHead>
-              <TableHead>Category</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Sender Type</TableHead>
               <TableHead>Fragile</TableHead>
@@ -436,9 +435,6 @@ export default function PackageTrackerPage() {
                   </TableCell>
                   <TableCell>
                     <span className="text-gray-600 text-sm">{pkg.destination || "Not specified"}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-gray-600 text-sm">{pkg.category || "N/A"}</span>
                   </TableCell>
                   <TableCell>
                     <Badge variant={pkg.priority_label === "high" ? "danger" : pkg.priority_label === "medium" ? "warning" : "success"} dot>
