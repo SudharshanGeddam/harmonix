@@ -9,12 +9,12 @@
  * - Global search with Command+K hint
  * - Notification badge with pulse animation
  * - AI assistant quick action
- * - User menu with online status
+ * - User menu with online status and logout
  */
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Search,
   Bell,
@@ -22,7 +22,9 @@ import {
   Command,
   Sparkles,
   Menu,
+  LogOut,
 } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
 
 const pageTitles: Record<string, { title: string; subtitle: string }> = {
   "/": { title: "Dashboard", subtitle: "Welcome back, here's what's happening" },
@@ -34,10 +36,26 @@ const pageTitles: Record<string, { title: string; subtitle: string }> = {
 };
 
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const [searchFocused, setSearchFocused] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const currentPage = pageTitles[pathname] || { title: "EthicTrack", subtitle: "Supply chain platform" };
+
+  const handleLogout = async () => {
+    try {
+      setIsLoggingOut(true);
+      await supabase.auth.signOut();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false);
+      setShowUserMenu(false);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
@@ -121,7 +139,10 @@ export default function Navbar() {
           </button>
 
           {/* User Menu */}
-          <button className="group relative flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200">
+          <button 
+            onClick={() => setShowUserMenu(!showUserMenu)}
+            className="group relative flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200"
+          >
             <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-slate-700 shadow-sm">
               <User className="h-4 w-4 text-white" />
             </div>
@@ -130,6 +151,20 @@ export default function Navbar() {
             </span>
             {/* Online status indicator */}
             <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500" />
+
+            {/* Dropdown menu */}
+            {showUserMenu && (
+              <div className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg">
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>
+                </button>
+              </div>
+            )}
           </button>
         </div>
       </div>
