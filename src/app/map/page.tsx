@@ -4,7 +4,8 @@
  * Real-time logistics tracking visualization.
  * Two-column layout with map placeholder and route data panel.
  *
- * UI-only with mock data - no external map libraries.
+ * UI-only placeholder - no external map libraries.
+ * Routes data structure shown for reference (awaiting API integration).
  */
 "use client";
 
@@ -21,44 +22,14 @@ import {
 } from "lucide-react";
 import Badge, { BadgeVariant } from "@/components/Badge";
 
-// Mock data for active routes
-const activeRoutes = [
-  {
-    id: "RT-001",
-    destination: "Relief Camp Alpha",
-    vehicle: "TRK-234",
-    status: "active" as const,
-    eta: "12 min",
-  },
-  {
-    id: "RT-002",
-    destination: "Hospital District",
-    vehicle: "TRK-156",
-    status: "active" as const,
-    eta: "28 min",
-  },
-  {
-    id: "RT-003",
-    destination: "Community Center B",
-    vehicle: "TRK-089",
-    status: "delayed" as const,
-    eta: "45 min",
-  },
-  {
-    id: "RT-004",
-    destination: "Water Station 12",
-    vehicle: "TRK-312",
-    status: "completed" as const,
-    eta: "—",
-  },
-  {
-    id: "RT-005",
-    destination: "Emergency HQ",
-    vehicle: "TRK-198",
-    status: "active" as const,
-    eta: "18 min",
-  },
-];
+// Route data structure (for API integration)
+interface RouteData {
+  id: string;
+  destination: string;
+  vehicle: string;
+  status: "active" | "delayed" | "completed";
+  eta: string;
+}
 
 // Status configuration
 const statusConfig: Record<
@@ -71,6 +42,9 @@ const statusConfig: Record<
 };
 
 export default function MapVisualizationPage() {
+  // TODO: Fetch real routes from API endpoint
+  const activeRoutes: RouteData[] = [];
+  
   const activeCount = activeRoutes.filter((r) => r.status === "active").length;
   const vehiclesInTransit = activeRoutes.filter(
     (r) => r.status === "active" || r.status === "delayed"

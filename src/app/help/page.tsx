@@ -4,6 +4,8 @@
  * Help center and documentation access for the EthicTrack platform.
  * Provides quick links to resources and support channels.
  */
+"use client";
+
 import {
   HelpCircle,
   BookOpen,

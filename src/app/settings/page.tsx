@@ -4,6 +4,8 @@
  * Configuration and preferences page for the EthicTrack platform.
  * Currently displays a coming soon state for demo purposes.
  */
+"use client";
+
 import { Bell, Shield, Palette, Globe, Database } from "lucide-react";
 
 const settingsSections = [
