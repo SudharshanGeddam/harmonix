@@ -23,11 +23,11 @@ import {
 // Loading skeleton component
 function StatSkeleton() {
   return (
-    <div className="h-40 rounded-xl bg-white shadow-sm animate-pulse">
+    <div className="h-40 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 shadow-sm animate-pulse border border-orange-200/30">
       <div className="p-6 space-y-4">
-        <div className="h-4 bg-gray-200 rounded w-24" />
-        <div className="h-8 bg-gray-200 rounded w-32" />
-        <div className="h-3 bg-gray-100 rounded w-20" />
+        <div className="h-4 bg-orange-200/60 rounded w-24" />
+        <div className="h-8 bg-orange-300/60 rounded w-32" />
+        <div className="h-3 bg-orange-100/60 rounded w-20" />
       </div>
     </div>
   );
@@ -43,14 +43,14 @@ interface StatCardProps {
 
 function StatCard({ icon: Icon, title, value, color }: StatCardProps) {
   return (
-    <div className="rounded-xl bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-100">
+    <div className="group relative rounded-xl bg-white p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-orange-200/30 hover:border-orange-300/60 hover:-translate-y-1 animate-fadeInSlideUp">
       <div className="flex items-start justify-between mb-4">
-        <div className={`p-3 rounded-lg ${color}`}>
+        <div className={`p-3 rounded-lg ${color} transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
           <Icon className="h-6 w-6 text-white" />
         </div>
       </div>
-      <h3 className="text-sm font-medium text-gray-600">{title}</h3>
-      <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
+      <h3 className="text-sm font-medium text-orange-700/80 transition-colors duration-200 group-hover:text-orange-800">{title}</h3>
+      <p className="text-3xl font-bold text-slate-900 mt-2 transition-all duration-200 group-hover:scale-105 origin-left">{value}</p>
     </div>
   );
 }
@@ -102,18 +102,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100/50 to-indigo-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50/50 to-orange-100/30 p-8 animate-fadeIn">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 animate-fadeInSlideUp">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-2">Real-time metrics from FastAPI backend</p>
+            <h1 className="text-4xl font-bold text-slate-900">Dashboard</h1>
+            <p className="text-orange-700/70 mt-2 font-medium">Real-time metrics from FastAPI backend</p>
           </div>
           {!isLoading && error && (
             <button
               onClick={handleRetry}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-95 font-medium"
             >
               <RefreshCw className="h-4 w-4" />
               Retry
@@ -123,7 +123,7 @@ export default function Home() {
 
         {/* Error State */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 flex gap-4">
+          <div className="bg-gradient-to-r from-red-50 to-red-100/50 border border-red-300/40 rounded-xl p-6 flex gap-4 animate-fadeInSlideUp shadow-sm">
             <AlertTriangle className="h-6 w-6 text-red-600 flex-shrink-0 mt-0.5" />
             <div>
               <h3 className="font-semibold text-red-900">Failed to Load Dashboard</h3>
@@ -147,25 +147,25 @@ export default function Home() {
                 icon={Package}
                 title="Total Packages"
                 value={(metrics.total_packages ?? 0).toLocaleString()}
-                color="bg-blue-600"
+                color="bg-gradient-to-br from-orange-500 to-orange-600"
               />
               <StatCard
                 icon={TrendingUp}
                 title="Active Routes"
                 value={(metrics.total_receipts ?? 0).toLocaleString()}
-                color="bg-emerald-600"
+                color="bg-gradient-to-br from-emerald-500 to-emerald-600"
               />
               <StatCard
                 icon={AlertTriangle}
                 title="Alerts"
                 value="0"
-                color="bg-amber-600"
+                color="bg-gradient-to-br from-amber-500 to-orange-500"
               />
               <StatCard
                 icon={CheckCircle2}
                 title="Completed Deliveries"
                 value={`${metrics.sustainability_score ?? 0}%`}
-                color="bg-violet-600"
+                color="bg-gradient-to-br from-violet-500 to-purple-600"
               />
             </>
           )}
@@ -173,9 +173,9 @@ export default function Home() {
 
         {/* Info Box */}
         {!isLoading && !error && (
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <h3 className="font-semibold text-gray-900 mb-2">Recent Activity</h3>
-            <p className="text-gray-600 text-sm">{metrics.recent_activity || "No recent activity recorded"}</p>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-orange-200/30 hover:shadow-md transition-all duration-300 animate-fadeInSlideUp">
+            <h3 className="font-semibold text-slate-900 mb-2">Recent Activity</h3>
+            <p className="text-orange-700/70 text-sm">{metrics.recent_activity || "No recent activity recorded"}</p>
           </div>
         )}
       </div>

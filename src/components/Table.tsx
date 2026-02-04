@@ -2,14 +2,15 @@
  * Table Components
  * 
  * Composable table system with zebra striping and hover effects.
+ * Features smooth animations, orange accent colors, and modern styling.
  * Mobile-friendly with horizontal scroll on smaller screens.
  * 
  * Components:
  * - Table: Root container with border and shadow
  * - TableHeader: Styled thead with background
  * - TableBody: Divided rows container
- * - TableRow: Row with zebra striping option
- * - TableHead: Header cell with uppercase styling
+ * - TableRow: Row with zebra striping option and hover lift
+ * - TableHead: Header cell with uppercase styling and orange accents
  * - TableCell: Data cell with alignment options
  * - TableEmpty: Empty state placeholder
  */
@@ -23,7 +24,7 @@ interface TableProps {
 
 export function Table({ children, className = "" }: TableProps) {
   return (
-    <div className={`overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm ${className}`}>
+    <div className={`overflow-x-auto rounded-lg border border-orange-200/30 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}>
       <table className="w-full min-w-[640px]">{children}</table>
     </div>
   );
@@ -36,7 +37,7 @@ interface TableHeaderProps {
 
 export function TableHeader({ children }: TableHeaderProps) {
   return (
-    <thead className="border-b border-gray-200 bg-slate-50/80 backdrop-blur-sm">
+    <thead className="border-b border-orange-200/40 bg-gradient-to-r from-orange-50/80 to-amber-50/80 backdrop-blur-sm">
       {children}
     </thead>
   );
@@ -48,7 +49,7 @@ interface TableBodyProps {
 }
 
 export function TableBody({ children }: TableBodyProps) {
-  return <tbody className="divide-y divide-gray-100">{children}</tbody>;
+  return <tbody className="divide-y divide-orange-100/50">{children}</tbody>;
 }
 
 // Table Row
@@ -67,8 +68,8 @@ export function TableRow({
 }: TableRowProps) {
   return (
     <tr
-      className={`transition-colors duration-200 hover:bg-slate-50 ${
-        zebra && index % 2 === 1 ? "bg-slate-50/50" : "bg-white"
+      className={`transition-all duration-200 hover:bg-orange-50/50 hover:shadow-sm ${
+        zebra && index % 2 === 1 ? "bg-orange-50/20" : "bg-white"
       } ${className}`}
     >
       {children}
@@ -96,7 +97,7 @@ export function TableHead({
 
   return (
     <th
-      className={`whitespace-nowrap px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-slate-600 ${alignStyles[align]} ${className}`}
+      className={`whitespace-nowrap px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-orange-700 ${alignStyles[align]} ${className}`}
     >
       {children}
     </th>
@@ -123,7 +124,7 @@ export function TableCell({
 
   return (
     <td
-      className={`whitespace-nowrap px-5 py-4 text-sm ${alignStyles[align]} ${className}`}
+      className={`whitespace-nowrap px-5 py-4 text-sm text-slate-700 ${alignStyles[align]} ${className}`}
     >
       {children}
     </td>
@@ -148,7 +149,7 @@ export function TableEmpty({
       >
         <div className="flex flex-col items-center gap-2">
           <svg
-            className="h-10 w-10 text-slate-300"
+            className="h-10 w-10 text-orange-200"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

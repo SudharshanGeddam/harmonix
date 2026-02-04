@@ -21,7 +21,7 @@ interface StatCardProps {
   change?: string;
   changeType?: "positive" | "negative" | "neutral";
   icon: LucideIcon;
-  gradient?: "blue" | "emerald" | "amber" | "violet" | "rose" | "indigo";
+  gradient?: "blue" | "emerald" | "amber" | "violet" | "rose" | "indigo" | "orange";
   sparklineData?: number[];
 }
 
@@ -49,6 +49,14 @@ const gradientStyles = {
     ring: "ring-amber-500/20",
     sparkline: "stroke-amber-500",
     sparklineFill: "fill-amber-500/10",
+  },
+  orange: {
+    iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
+    iconShadow: "shadow-orange-500/40",
+    accentBg: "from-orange-500/10 via-transparent to-transparent",
+    ring: "ring-orange-500/20",
+    sparkline: "stroke-orange-500",
+    sparklineFill: "fill-orange-500/10",
   },
   violet: {
     iconBg: "bg-gradient-to-br from-violet-500 to-purple-600",

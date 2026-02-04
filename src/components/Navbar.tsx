@@ -10,6 +10,7 @@
  * - Notification badge with pulse animation
  * - AI assistant quick action
  * - User menu with email display and logout
+ * - Orange accent color scheme with smooth animations
  */
 "use client";
 
@@ -70,29 +71,29 @@ export default function Navbar() {
 
   if (isLoading) {
     return (
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+      <header className="sticky top-0 z-30 border-b border-orange-200/30 bg-white/95 backdrop-blur-sm transition-all duration-200">
         <div className="flex h-16 items-center justify-between gap-4 px-6">
-          <div className="text-sm text-gray-500">Loading...</div>
+          <div className="text-sm text-orange-600/60">Loading...</div>
         </div>
       </header>
     );
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 border-b border-orange-200/40 bg-gradient-to-r from-white via-orange-50/20 to-white/95 backdrop-blur-sm transition-all duration-300">
       <div className="flex h-16 items-center justify-between gap-4 px-6">
         {/* Left Section - Page Title */}
         <div className="flex items-center gap-4">
           {/* Mobile menu button (hidden on desktop) */}
-          <button className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 lg:hidden focus:outline-none focus:ring-2 focus:ring-slate-200">
+          <button className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-all duration-200 hover:bg-orange-100/50 hover:text-orange-600 lg:hidden focus:outline-none focus:ring-2 focus:ring-orange-200">
             <Menu className="h-5 w-5" />
           </button>
 
           <div className="hidden flex-col sm:flex">
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-lg font-semibold text-slate-900">
               {currentPage.title}
             </h1>
-            <p className="text-xs text-gray-500">{currentPage.subtitle}</p>
+            <p className="text-xs text-orange-700/60">{currentPage.subtitle}</p>
           </div>
         </div>
 
@@ -106,32 +107,32 @@ export default function Navbar() {
               <div
               className={`relative flex w-full items-center rounded-lg border transition-all duration-200 ${
                 searchFocused
-                  ? "border-slate-400 bg-white shadow-md ring-2 ring-slate-200"
-                  : "border-gray-200 bg-slate-50/80 hover:bg-slate-100/80"
+                  ? "border-orange-400/60 bg-white shadow-lg ring-2 ring-orange-200/50"
+                  : "border-orange-200/30 bg-gradient-to-r from-orange-50/50 to-amber-50/30 hover:bg-gradient-to-r hover:from-orange-100/50 hover:to-amber-100/30"
               }`}
             >
               <Search
                 className={`ml-3 h-4 w-4 transition-colors duration-200 ${
-                  searchFocused ? "text-slate-600" : "text-gray-400"
+                  searchFocused ? "text-orange-600" : "text-orange-500/60"
                 }`}
               />
               <input
                 type="text"
                 placeholder="Search packages, receipts, routes..."
-                className="h-10 flex-1 bg-transparent px-3 text-sm text-gray-900 placeholder-gray-400 outline-none"
+                className="h-10 flex-1 bg-transparent px-3 text-sm text-slate-900 placeholder-orange-600/40 outline-none"
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
               {/* Keyboard shortcut hint */}
               <div
-                className={`mr-3 hidden items-center gap-1 transition-opacity md:flex ${
+                className={`mr-3 hidden items-center gap-1 transition-opacity duration-200 md:flex ${
                   searchFocused ? "opacity-0" : "opacity-100"
                 }`}
               >
-                <kbd className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-[10px] font-medium text-gray-500">
+                <kbd className="flex h-5 w-5 items-center justify-center rounded border border-orange-300/40 bg-orange-50 text-[10px] font-medium text-orange-700/60 transition-colors duration-200">
                   <Command className="h-3 w-3" />
                 </kbd>
-                <kbd className="flex h-5 min-w-[20px] items-center justify-center rounded border border-gray-300 bg-white text-[10px] font-medium text-gray-500">
+                <kbd className="flex h-5 min-w-[20px] items-center justify-center rounded border border-orange-300/40 bg-orange-50 text-[10px] font-medium text-orange-700/60 transition-colors duration-200">
                   K
                 </kbd>
               </div>
@@ -142,18 +143,18 @@ export default function Navbar() {
         {/* Right Section - Actions */}
         <div className="flex items-center gap-2">
           {/* AI Assistant Button */}
-          <button className="group hidden items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md sm:flex">
+          <button className="group hidden items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-4 py-2 text-sm font-medium text-orange-700 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md sm:flex">
             <Sparkles className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
             <span>Ask AI</span>
           </button>
 
           {/* Notification Button */}
-          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:text-gray-900 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200">
+          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-orange-200/40 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600/70 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-br hover:from-orange-100/60 hover:to-amber-100/60 hover:text-orange-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50">
             <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110" />
             {/* Notification badge with pulse */}
             <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-red-500 to-rose-500 text-[10px] font-bold text-white shadow-lg">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
+              <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-[10px] font-bold text-white shadow-lg">
                 3
               </span>
             </span>
@@ -162,31 +163,31 @@ export default function Navbar() {
           {/* User Menu */}
           <button 
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="group relative flex h-10 items-center gap-2 rounded-lg border border-gray-200 bg-white px-2 pr-3 shadow-sm transition-all duration-200 hover:border-gray-300 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="group relative flex h-10 items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-2 pr-3 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50"
           >
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-700 shadow-sm text-white font-semibold text-xs">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm text-white font-semibold text-xs transition-transform duration-200 group-hover:scale-105">
               {avatarText}
             </div>
-            <span className="hidden text-sm font-medium text-gray-700 lg:block max-w-[100px] truncate">
+            <span className="hidden text-sm font-medium text-orange-700/80 lg:block max-w-[100px] truncate">
               {userEmail.split("@")[0]}
             </span>
             {/* Online status indicator */}
-            <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500" />
+            <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500 animate-pulse" />
 
             {/* Dropdown menu */}
             {showUserMenu && (
-              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-gray-200 bg-white shadow-lg z-50">
+              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-orange-200/40 bg-white shadow-lg z-50 animate-fadeInSlideUp">
                 {/* User info */}
-                <div className="border-b border-gray-100 px-4 py-3">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Signed in as</p>
-                  <p className="text-sm font-medium text-gray-900 truncate">{userEmail}</p>
+                <div className="border-b border-orange-200/30 px-4 py-3 bg-gradient-to-r from-orange-50/50 to-amber-50/50">
+                  <p className="text-xs text-orange-700/60 uppercase tracking-wide">Signed in as</p>
+                  <p className="text-sm font-medium text-orange-800 truncate">{userEmail}</p>
                 </div>
 
                 {/* Logout button */}
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-slate-50 transition-colors duration-200 rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-orange-700/80 hover:bg-orange-50/60 transition-all duration-200 rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed hover:text-orange-800 font-medium"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>

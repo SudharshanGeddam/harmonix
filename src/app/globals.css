@@ -3,6 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --orange-primary: #ff8c42;
+  --orange-secondary: #ff6b35;
+  --orange-accent: #ffa500;
 }
 
 @theme inline {
@@ -23,4 +26,144 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* Fade in with slide up on page load */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Subtle pulse animation for badges */
+@keyframes subtlePulse {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
+  }
+  50% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 8px rgba(255, 107, 53, 0);
+  }
+}
+
+/* Slow glow animation */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 140, 66, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(255, 140, 66, 0.8);
+  }
+}
+
+/* Shimmer animation for loading states */
+@keyframes shimmer {
+  -100% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Card lift on hover */
+@keyframes lift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+/* Scale animations for buttons */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Utility classes for animations */
+.animate-fadeInSlideUp {
+  animation: fadeInSlideUp 0.4s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-subtlePulse {
+  animation: subtlePulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
+
+/* ===== COLOR PALETTE ===== */
+
+/* Orange gradient utilities */
+.gradient-orange-primary {
+  background: linear-gradient(135deg, #ffb84d 0%, #ff8c42 50%, #ff6b35 100%);
+}
+
+.gradient-orange-accent {
+  background: linear-gradient(135deg, #ffa500 0%, #ff8c42 100%);
+}
+
+.bg-orange-soft {
+  background-color: rgba(255, 140, 66, 0.05);
+}
+
+.border-orange-light {
+  border-color: rgba(255, 140, 66, 0.2);
+}
+
+.text-orange-primary {
+  color: #ff8c42;
+}
+
+.text-orange-secondary {
+  color: #ff6b35;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }

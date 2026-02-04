@@ -3,7 +3,7 @@
  * 
  * Ethical verification receipt display card.
  * Shows transaction details, proof summary, and verification status.
- * Features blockchain-style hash visualization and verify action.
+ * Features blockchain-style hash visualization, smooth animations, and orange accents.
  * 
  * Status types: verified (green), pending (amber), failed (red)
  */
@@ -41,9 +41,9 @@ const statusConfig: Record<
   pending: {
     label: "Pending",
     icon: Clock,
-    color: "text-amber-600",
-    bgColor: "bg-amber-50",
-    borderColor: "border-amber-200",
+    color: "text-orange-600",
+    bgColor: "bg-orange-50",
+    borderColor: "border-orange-200",
   },
   failed: {
     label: "Failed",
@@ -67,14 +67,14 @@ export default function ReceiptCard({
   const StatusIcon = config.icon;
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:-translate-y-1">
+    <article className="group relative overflow-hidden rounded-xl border border-orange-200/30 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-orange-300/60 hover:-translate-y-1 animate-fadeIn">
       {/* Top accent bar */}
       <div
-        className={`h-1 w-full ${
+        className={`h-1.5 w-full transition-all duration-300 ${
           status === "verified"
             ? "bg-gradient-to-r from-emerald-400 to-emerald-500"
             : status === "pending"
-            ? "bg-gradient-to-r from-amber-400 to-amber-500"
+            ? "bg-gradient-to-r from-orange-400 to-orange-500"
             : "bg-gradient-to-r from-red-400 to-red-500"
         }`}
       />
@@ -84,7 +84,7 @@ export default function ReceiptCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-lg ${config.bgColor} transition-transform duration-300 group-hover:scale-110`}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg ${config.bgColor} transition-all duration-300 group-hover:scale-110 group-hover:shadow-md`}
             >
               <Shield className={`h-5 w-5 ${config.color}`} />
             </div>
@@ -96,7 +96,9 @@ export default function ReceiptCard({
             </div>
           </div>
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${config.bgColor} ${config.color} ${config.borderColor}`}
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${config.bgColor} ${config.color} ${config.borderColor} transition-all duration-200 ${
+              status === "pending" ? "animate-subtlePulse" : ""
+            }`}
           >
             <StatusIcon className="h-3.5 w-3.5" />
             {config.label}
@@ -107,7 +109,7 @@ export default function ReceiptCard({
         {(category || supplier) && (
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {category && (
-              <span className="inline-flex rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
+              <span className="inline-flex rounded-md bg-gradient-to-r from-orange-100 to-amber-100 px-2 py-1 text-xs font-medium text-orange-700 transition-all duration-200 hover:shadow-sm">
                 {category}
               </span>
             )}
@@ -121,7 +123,7 @@ export default function ReceiptCard({
 
         {/* Proof Summary */}
         <div className="mt-4">
-          <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+          <p className="text-xs font-medium uppercase tracking-wider text-orange-600/70">
             Proof Summary
           </p>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-600 line-clamp-3">
@@ -130,11 +132,11 @@ export default function ReceiptCard({
         </div>
 
         {/* Blockchain-style hash visualization */}
-        <div className="mt-4 rounded-lg bg-slate-50 p-3">
-          <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+        <div className="mt-4 rounded-lg bg-gradient-to-r from-orange-50/50 to-amber-50/50 border border-orange-200/30 p-3 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-orange-100/50 group-hover:to-amber-100/50">
+          <p className="text-[10px] font-medium uppercase tracking-wider text-orange-600/70">
             Verification Hash
           </p>
-          <p className="mt-1 truncate font-mono text-xs text-slate-500">
+          <p className="mt-1 truncate font-mono text-xs text-orange-700/60 transition-colors duration-200 group-hover:text-orange-700">
             0x{transactionId.replace(/-/g, "").toLowerCase()}a7f3b2c1e8d4...
           </p>
         </div>
@@ -143,19 +145,19 @@ export default function ReceiptCard({
         <div className="mt-5 flex items-center gap-3">
           <button
             onClick={onVerify}
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 active:scale-95 disabled:opacity-50"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-2.5 text-sm font-medium text-white shadow-md hover:shadow-lg transition-all duration-200 hover:from-orange-600 hover:to-orange-700 active:scale-95 disabled:opacity-50"
           >
             <Shield className="h-4 w-4" />
             Verify
           </button>
-          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-400 transition-all hover:border-slate-300 hover:bg-slate-50 hover:text-slate-600">
+          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200/40 text-orange-600/60 transition-all duration-200 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700 hover:shadow-sm">
             <ExternalLink className="h-4 w-4" />
           </button>
         </div>
       </div>
 
       {/* Hover gradient overlay */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-slate-50/0 via-slate-50/0 to-slate-100/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-orange-50/0 via-orange-50/0 to-orange-100/0 opacity-0 transition-opacity duration-300 group-hover:opacity-40" />
     </article>
   );
 }
