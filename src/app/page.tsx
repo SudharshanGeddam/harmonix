@@ -119,9 +119,9 @@ export default function Home() {
           {!isLoading && error && (
             <button
               onClick={handleRetry}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-95 font-medium"
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 hover:shadow-xl hover:scale-105 active:scale-95 font-medium group"
             >
-              <RefreshCw className="h-4 w-4" />
+              <RefreshCw className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
               Retry
             </button>
           )}

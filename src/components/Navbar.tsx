@@ -143,14 +143,14 @@ export default function Navbar() {
         {/* Right Section - Actions */}
         <div className="flex items-center gap-2">
           {/* AI Assistant Button */}
-          <button className="group hidden items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-4 py-2 text-sm font-medium text-orange-700 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md sm:flex">
-            <Sparkles className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          <button className="group hidden items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-4 py-2 text-sm font-medium text-orange-700 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/80 hover:to-amber-100/80 hover:shadow-lg hover:scale-105 active:scale-95 sm:flex">
+            <Sparkles className="h-4 w-4 transition-transform duration-200 group-hover:scale-120 group-hover:rotate-12" />
             <span>Ask AI</span>
           </button>
 
           {/* Notification Button */}
-          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-orange-200/40 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600/70 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-br hover:from-orange-100/60 hover:to-amber-100/60 hover:text-orange-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50">
-            <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110" />
+          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-orange-200/40 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600/70 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-br hover:from-orange-100/60 hover:to-amber-100/60 hover:text-orange-700 hover:shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-200/50">
+            <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-125 group-hover:-rotate-12" />
             {/* Notification badge with pulse */}
             <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
@@ -164,9 +164,9 @@ export default function Navbar() {
           <div className="relative">
             <button 
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="group relative flex h-10 items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-2 pr-3 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50"
+              className="group relative flex h-10 items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-2 pr-3 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-200/50"
             >
-              <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm text-white font-semibold text-xs transition-transform duration-200 group-hover:scale-105">
+              <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm text-white font-semibold text-xs transition-all duration-200 group-hover:scale-110 group-hover:shadow-lg group-hover:rotate-3">
                 {avatarText}
               </div>
               <span className="hidden text-sm font-medium text-orange-700/80 lg:block max-w-[100px] truncate">
@@ -178,9 +178,9 @@ export default function Navbar() {
 
             {/* Dropdown menu */}
             {showUserMenu && (
-              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-orange-200/40 bg-white shadow-lg z-50 animate-fadeInSlideUp">
+              <div className="absolute right-0 top-full mt-2 w-56 rounded-lg border border-orange-200/40 bg-white shadow-xl z-50 animate-fadeInSlideUp">
                 {/* User info */}
-                <div className="border-b border-orange-200/30 px-4 py-3 bg-gradient-to-r from-orange-50/50 to-amber-50/50">
+                <div className="border-b border-orange-200/30 px-4 py-3 bg-gradient-to-r from-orange-50/80 to-amber-50/60">
                   <p className="text-xs text-orange-700/60 uppercase tracking-wide">Signed in as</p>
                   <p className="text-sm font-medium text-orange-800 truncate">{userEmail}</p>
                 </div>
@@ -189,9 +189,9 @@ export default function Navbar() {
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-orange-700/80 hover:bg-orange-50/60 transition-all duration-200 rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed hover:text-orange-800 font-medium"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm text-orange-700/80 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 transition-all duration-200 rounded-b-lg disabled:opacity-50 disabled:cursor-not-allowed hover:text-orange-800 font-medium group"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:scale-110 group-hover:-rotate-12" />
                   <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>
                 </button>
               </div>

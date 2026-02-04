@@ -109,6 +109,69 @@ body {
   }
 }
 
+/* Fade in with slide up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth button scale animations */
+@keyframes buttonHover {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes buttonActive {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.98);
+  }
+}
+
+/* Card lift animation on hover */
+@keyframes cardLift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+/* Pulse for critical badges */
+@keyframes criticalPulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+  }
+  50% {
+    opacity: 0.95;
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0);
+  }
+}
+
+/* Orange glow for high priority */
+@keyframes orangeGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(255, 140, 66, 0.6), inset 0 0 8px rgba(255, 140, 66, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255, 140, 66, 0.8), inset 0 0 12px rgba(255, 140, 66, 0.2);
+  }
+}
+
 /* Utility classes for animations */
 .animate-fadeInSlideUp {
   animation: fadeInSlideUp 0.4s ease-out;
@@ -132,6 +195,26 @@ body {
 
 .animate-scaleIn {
   animation: scaleIn 0.3s ease-out;
+}
+
+.animate-cardLift {
+  animation: cardLift 0.3s ease-out forwards;
+}
+
+.animate-buttonHover {
+  animation: buttonHover 0.2s ease-out forwards;
+}
+
+.animate-buttonActive {
+  animation: buttonActive 0.1s ease-out forwards;
+}
+
+.animate-criticalPulse {
+  animation: criticalPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-orangeGlow {
+  animation: orangeGlow 2s ease-in-out infinite;
 }
 
 /* ===== COLOR PALETTE ===== */
@@ -163,7 +246,21 @@ body {
 
 /* Smooth transitions for all interactive elements */
 * {
-  transition-property: background-color, border-color, color, fill, stroke;
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform;
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure buttons and links are accessible and responsive */
+button, a {
+  outline-offset: 2px;
+}
+
+button:focus-visible, a:focus-visible {
+  outline: 2px solid rgba(255, 140, 66, 0.5);
+}
+
+/* Page-level animation entry point */
+main {
+  animation: fadeInUp 0.4s ease-out;
 }

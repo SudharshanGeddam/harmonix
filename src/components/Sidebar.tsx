@@ -73,11 +73,11 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950">
       {/* Logo / Brand */}
-      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-white/10 px-5">
+      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-orange-500/20 px-5 bg-gradient-to-r from-slate-900 via-slate-900 to-orange-950/30 transition-all duration-300">
         <div className="relative flex h-10 w-10 items-center justify-center">
           {/* Glow effect */}
-          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 opacity-80 blur-sm" />
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30">
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 opacity-80 blur-sm animate-orangeGlow" />
+          <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/40 group hover:scale-105 transition-transform duration-200">
             <Zap className="h-5 w-5 text-white" />
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function Sidebar() {
           <span className="text-base font-bold tracking-tight text-white">
             EthicTrack
           </span>
-          <span className="text-[10px] font-medium uppercase tracking-widest text-slate-400">
+          <span className="text-[10px] font-medium uppercase tracking-widest text-orange-300/70">
             Supply Chain
           </span>
         </div>
@@ -113,8 +113,8 @@ export default function Sidebar() {
               href={item.href}
               className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "bg-white/10 text-white"
-                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+                  ? "bg-orange-500/20 text-orange-100"
+                  : "text-slate-400 hover:bg-orange-500/10 hover:text-orange-100"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
@@ -122,8 +122,8 @@ export default function Sidebar() {
               <div
                 className={`absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full transition-all duration-200 ${
                   isActive
-                    ? "bg-gradient-to-b from-indigo-400 to-indigo-500 shadow-lg shadow-indigo-500/40"
-                    : "scale-y-0 bg-slate-600 group-hover:scale-y-50 group-hover:bg-slate-500"
+                    ? "bg-gradient-to-b from-orange-400 to-orange-500 shadow-lg shadow-orange-500/40 scale-y-100"
+                    : "scale-y-0 bg-orange-600 group-hover:scale-y-50 group-hover:bg-orange-500"
                 }`}
               />
 
@@ -131,13 +131,13 @@ export default function Sidebar() {
               <div
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-all duration-200 ${
                   isActive
-                    ? "bg-indigo-600/40"
-                    : "bg-slate-800/40 group-hover:bg-slate-700/50"
+                    ? "bg-orange-600/40"
+                    : "bg-slate-800/40 group-hover:bg-orange-600/20"
                 }`}
               >
                 <Icon
-                  className={`h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-110 ${
-                    isActive ? "text-indigo-300" : "text-slate-400 group-hover:text-slate-200"
+                  className={`h-[18px] w-[18px] transition-all duration-200 group-hover:scale-110 ${
+                    isActive ? "text-orange-300" : "text-slate-400 group-hover:text-orange-300"
                   }`}
                 />
               </div>
@@ -148,7 +148,7 @@ export default function Sidebar() {
                 {item.description && (
                   <span
                     className={`truncate text-[10px] transition-colors duration-200 ${
-                      isActive ? "text-slate-400" : "text-slate-600 group-hover:text-slate-500"
+                      isActive ? "text-orange-200/60" : "text-slate-600 group-hover:text-orange-200/60"
                     }`}
                   >
                     {item.description}
@@ -160,8 +160,8 @@ export default function Sidebar() {
               <ChevronRight
                 className={`h-4 w-4 transition-all duration-200 ${
                   isActive
-                    ? "text-indigo-300 opacity-100"
-                    : "text-slate-600 opacity-0 group-hover:opacity-100"
+                    ? "text-orange-300 opacity-100"
+                    : "text-slate-600 opacity-0 group-hover:opacity-100 group-hover:text-orange-300"
                 }`}
               />
             </Link>

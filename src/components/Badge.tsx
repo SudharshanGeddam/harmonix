@@ -62,21 +62,19 @@ export default function Badge({
     md: "px-3 py-1 text-sm",
   };
 
-  const animationClass =
-    animate && (variant === "critical" || variant === "high")
-      ? "animate-subtlePulse"
-      : "";
+  const isCritical = variant === "critical" || variant === "high";
+  const animationClass = animate && isCritical ? "animate-orangeGlow" : "";
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border font-medium transition-all duration-200 ${variantStyles[variant]} ${sizeStyles[size]} ${animationClass}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border font-medium transition-all duration-200 ${variantStyles[variant]} ${sizeStyles[size]} ${animationClass} ${
+        isCritical ? "shadow-sm" : ""
+      }`}
     >
       {dot && (
         <span
           className={`h-1.5 w-1.5 rounded-full ${dotColors[variant]} ${
-            animate && (variant === "critical" || variant === "high")
-              ? "animate-pulse"
-              : ""
+            animate && isCritical ? "animate-pulse" : ""
           }`}
           aria-hidden="true"
         />

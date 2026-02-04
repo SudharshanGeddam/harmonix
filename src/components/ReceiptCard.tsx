@@ -67,7 +67,7 @@ export default function ReceiptCard({
   const StatusIcon = config.icon;
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-orange-200/30 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-orange-300/60 hover:-translate-y-1 animate-fadeIn">
+    <article className="group relative overflow-hidden rounded-xl border border-orange-200/40 bg-gradient-to-br from-white to-orange-50/30 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-orange-300/60 hover:-translate-y-1 animate-fadeIn">
       {/* Top accent bar */}
       <div
         className={`h-1.5 w-full transition-all duration-300 ${
@@ -84,7 +84,7 @@ export default function ReceiptCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-lg ${config.bgColor} transition-all duration-300 group-hover:scale-110 group-hover:shadow-md`}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg ${config.bgColor} transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:rotate-3`}
             >
               <Shield className={`h-5 w-5 ${config.color}`} />
             </div>

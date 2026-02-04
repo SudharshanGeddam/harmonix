@@ -24,7 +24,7 @@ interface TableProps {
 
 export function Table({ children, className = "" }: TableProps) {
   return (
-    <div className={`overflow-x-auto rounded-lg border border-orange-200/30 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}>
+    <div className={`overflow-x-auto rounded-lg border border-orange-200/40 bg-white shadow-sm hover:shadow-lg transition-all duration-300 animate-fadeIn ${className}`}>
       <table className="w-full min-w-[640px]">{children}</table>
     </div>
   );
@@ -68,8 +68,8 @@ export function TableRow({
 }: TableRowProps) {
   return (
     <tr
-      className={`transition-all duration-200 hover:bg-orange-50/50 hover:shadow-sm ${
-        zebra && index % 2 === 1 ? "bg-orange-50/20" : "bg-white"
+      className={`transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-50/80 hover:to-amber-50/60 hover:shadow-md hover:-translate-y-0.5 ${
+        zebra && index % 2 === 1 ? "bg-orange-50/25" : "bg-white"
       } ${className}`}
     >
       {children}

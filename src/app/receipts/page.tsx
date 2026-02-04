@@ -48,28 +48,8 @@ export default function ReceiptsPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await getReceipts();
-
-        // DEBUG: Log API response
-        console.log("[ReceiptsPage] API response:", response);
-
-        // Extract receipts array - handle different response shapes
-        let receiptsArray: ReceiptType[] = [];
-        if (Array.isArray(response)) {
-          receiptsArray = response;
-        } else if (response && typeof response === "object") {
-          const resp = response as Record<string, unknown>;
-          if (Array.isArray(resp.data)) {
-            receiptsArray = resp.data as ReceiptType[];
-          } else if (resp.data && typeof resp.data === "object" && Array.isArray((resp.data as Record<string, unknown>).data)) {
-            receiptsArray = (resp.data as Record<string, unknown>).data as ReceiptType[];
-          }
-        }
-
-        // DEBUG: Log extracted receipts
-        console.log("[ReceiptsPage] Extracted receipts array:", receiptsArray);
-
-        setReceipts(receiptsArray);
+        const data = await getReceipts();
+        setReceipts(data);
       } catch (err) {
         const errorMessage = err instanceof ApiError ? err.message : "Failed to load receipts";
         setError(errorMessage);
@@ -151,18 +131,24 @@ export default function ReceiptsPage() {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {receipts.map((receipt) => (
-              <ReceiptCard
+            {receipts.map((receipt, index) => (
+              <div
                 key={receipt.id}
-                transactionId={receipt.id}
-                timestamp={formatDate(receipt.created_at || receipt.date)}
-                proofSummary={receipt.category || receipt.merchant || "Transaction record"}
-                status={mapReceiptStatus(receipt.category)}
-                category={receipt.amount ? `$${receipt.amount}` : receipt.category || "N/A"}
-                onVerify={() => {
-                  // UI only - no action
+                style={{
+                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
                 }}
-              />
+              >
+                <ReceiptCard
+                  transactionId={receipt.id}
+                  timestamp={formatDate(receipt.created_at || receipt.date)}
+                  proofSummary={receipt.category || receipt.merchant || "Transaction record"}
+                  status={mapReceiptStatus(receipt.category)}
+                  category={receipt.amount ? `$${receipt.amount}` : receipt.category || "N/A"}
+                  onVerify={() => {
+                    // UI only - no action
+                  }}
+                />
+              </div>
             ))}
           </div>
         )}

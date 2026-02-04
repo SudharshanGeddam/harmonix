@@ -165,10 +165,34 @@ export async function getPackages(): Promise<PackagesResponse> {
 /**
  * Fetch all receipts
  */
-export async function getReceipts(): Promise<Receipt[]> {
-  const response = await apiGet<Receipt[]>('/api/receipts');
-  return Array.isArray(response) ? response : [];
-}
+export const getReceipts = async () => {
+  const response = await fetch('http://localhost:8000/api/receipts');
+  const data = await response.json();
+  console.log(data); // { receipts: [...], count: X }
+  // Return receipts array, handling both formats
+  return Array.isArray(data) ? data : (data.receipts || []);
+};
+
+/**
+ * Create a new receipt
+ */
+export const createReceipt = async () => {
+  const receipt = {
+    receipt_id: "RECEIPT-NEW-001",
+    package_id: "DEMO-001-HOSPITAL-CRIT",
+    proof_summary: "Verified delivery with photos and signature",
+    status: "verified" // or "pending"
+  };
+
+  const response = await fetch('http://localhost:8000/api/receipts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(receipt)
+  });
+  const data = await response.json();
+  console.log(data); // Created receipt
+  return data;
+};
 
 /**
  * Process a package with updated information
@@ -229,3 +253,32 @@ export async function getReceiptById(id: string): Promise<Receipt> {
 export function getApiBaseUrl(): string {
   return API_BASE_URL;
 }
+
+/**
+ * Seed demo receipts
+ */
+export const seedReceipts = async () => {
+  const response = await fetch('http://localhost:8000/api/seed/receipts', {
+    method: 'POST'
+  });
+  const receipts = await response.json();
+  console.log(`Created ${receipts.length} demo receipts`);
+  return receipts;
+};
+
+/**
+ * Generic API call handler with error handling
+ */
+export const handleApiCall = async (url: string, options: RequestInit = {}) => {
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      const error = await response.json();
+      console.error(`Error ${response.status}:`, error.detail);
+      // 400: Bad request, 409: Duplicate, 503: Table not configured, 500: Server error
+    }
+    return await response.json();
+  } catch (err) {
+    console.error('Network error:', err);
+  }
+};

@@ -188,14 +188,14 @@ export default function StatCard({
   const ChangeIcon = changeConfig[changeType].icon;
 
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 hover:-translate-y-1">
+    <article className="group relative overflow-hidden rounded-xl border border-orange-200/40 bg-gradient-to-br from-white to-orange-50/30 p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-orange-300/60 hover:-translate-y-1 animate-fadeIn">
       {/* Gradient accent background */}
       <div
         className={`absolute inset-0 bg-gradient-to-br ${styles.accentBg} opacity-0 transition-opacity duration-500 group-hover:opacity-100`}
       />
 
-      {/* Decorative corner gradient */}
-      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 opacity-60 transition-all duration-500 group-hover:scale-150 group-hover:opacity-40" />
+      {/* Decorative corner gradient - orange themed */}
+      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-orange-100 to-amber-50 opacity-60 transition-all duration-500 group-hover:scale-150 group-hover:opacity-40" />
 
       {/* Subtle grid pattern */}
       <div
@@ -209,7 +209,7 @@ export default function StatCard({
         {/* Top row: Icon and sparkline */}
         <div className="flex items-start justify-between">
           <div
-            className={`flex h-14 w-14 items-center justify-center rounded-2xl ${styles.iconBg} shadow-lg ${styles.iconShadow} transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl group-hover:rotate-3`}
+            className={`flex h-14 w-14 items-center justify-center rounded-2xl ${styles.iconBg} shadow-lg ${styles.iconShadow} transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl group-hover:rotate-3 group-hover:-translate-y-1`}
           >
             <Icon className="h-7 w-7 text-white" strokeWidth={1.75} />
           </div>
@@ -227,10 +227,10 @@ export default function StatCard({
 
         {/* Value and title */}
         <div className="mt-5">
-          <p className="text-sm font-medium text-slate-500 transition-colors duration-300 group-hover:text-slate-600">
+          <p className="text-sm font-medium text-slate-500 transition-colors duration-300 group-hover:text-orange-700">
             {title}
           </p>
-          <p className="mt-1.5 text-4xl font-bold tracking-tight text-slate-900">
+          <p className="mt-1.5 text-4xl font-bold tracking-tight text-slate-900 group-hover:text-orange-900 transition-colors duration-300">
             {value}
           </p>
         </div>
@@ -239,7 +239,7 @@ export default function StatCard({
         {change && (
           <div className="mt-4 flex items-center gap-2">
             <span
-              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${changeConfig[changeType].bg} ${changeConfig[changeType].color}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition-all duration-200 ${changeConfig[changeType].bg} ${changeConfig[changeType].color} group-hover:scale-105 group-hover:shadow-sm`}
             >
               <ChangeIcon className="h-3 w-3" />
               {change}
@@ -249,7 +249,7 @@ export default function StatCard({
         )}
       </div>
 
-      {/* Bottom accent line */}
+      {/* Bottom accent line - animated */}
       <div
         className={`absolute bottom-0 left-0 h-1 w-0 ${styles.iconBg} transition-all duration-500 group-hover:w-full`}
       />
