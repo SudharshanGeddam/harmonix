@@ -6,6 +6,7 @@
  */
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthProvider";
 import { Bell, Shield, Palette, Globe, Database } from "lucide-react";
 
@@ -43,6 +44,7 @@ const settingsSections = [
 ];
 
 export default function SettingsPage() {
+  const router = useRouter();
   const { user } = useAuth();
 
   const userEmail = user?.email || "user@example.com";
@@ -62,10 +64,17 @@ export default function SettingsPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {settingsSections.map((section) => {
           const Icon = section.icon;
+          const handleClick = () => {
+            if (section.title === "Notifications") {
+              router.push("/notifications");
+            }
+          };
           return (
             <button
               key={section.title}
-              className="group relative flex flex-col items-start gap-4 rounded-xl border border-orange-200/40 bg-gradient-to-br from-white to-orange-50/30 p-6 text-left shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:shadow-lg hover:-translate-y-1 animate-fadeIn"
+              onClick={handleClick}
+              disabled={section.status === "Coming Soon"}
+              className="group relative flex flex-col items-start gap-4 rounded-xl border border-orange-200/40 bg-gradient-to-br from-white to-orange-50/30 p-6 text-left shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:shadow-lg hover:-translate-y-1 animate-fadeIn disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 transition-all duration-200 group-hover:scale-110 group-hover:shadow-md">
                 <Icon className="h-6 w-6 text-orange-600" />

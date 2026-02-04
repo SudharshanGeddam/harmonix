@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
 import { useAuth } from "@/lib/AuthProvider";
+import { useNotifications } from "@/lib/NotificationContext";
 
 const pageTitles: Record<string, { title: string; subtitle: string }> = {
   "/": { title: "Dashboard", subtitle: "Welcome back, here's what's happening" },
@@ -43,6 +44,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { user, isLoading } = useAuth();
+  const { unreadCount } = useNotifications();
   const [searchFocused, setSearchFocused] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -149,15 +151,20 @@ export default function Navbar() {
           </button>
 
           {/* Notification Button */}
-          <button className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-orange-200/40 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600/70 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-br hover:from-orange-100/60 hover:to-amber-100/60 hover:text-orange-700 hover:shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-200/50">
+          <button 
+            onClick={() => router.push("/notifications")}
+            className="group relative flex h-10 w-10 items-center justify-center rounded-lg border border-orange-200/40 bg-gradient-to-br from-orange-50 to-amber-50 text-orange-600/70 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-br hover:from-orange-100/60 hover:to-amber-100/60 hover:text-orange-700 hover:shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange-200/50"
+          >
             <Bell className="h-[18px] w-[18px] transition-transform duration-200 group-hover:scale-125 group-hover:-rotate-12" />
             {/* Notification badge with pulse */}
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
-              <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-[10px] font-bold text-white shadow-lg">
-                3
+            {unreadCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
+                <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-[10px] font-bold text-white shadow-lg">
+                  {unreadCount > 9 ? "9+" : unreadCount}
+                </span>
               </span>
-            </span>
+            )}
           </button>
 
           {/* User Menu */}

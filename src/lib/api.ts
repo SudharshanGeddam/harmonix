@@ -17,6 +17,7 @@ export interface Package {
   package_id?: string;
   status: string;
   priority_label?: string;
+  urgency?: string;
   category?: string;
   destination?: string;
   sender_type?: string;

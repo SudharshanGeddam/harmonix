@@ -9,6 +9,7 @@
  * - Display urgency, sender_type, fragile status, priority_label
  * - "Receive Package" modal with form submission
  * - Loading, error, and empty states
+ * - Trigger notifications for high-priority packages
  */
 "use client";
 
@@ -16,6 +17,7 @@ import { useState, useEffect } from "react";
 import { Search, Package, X, AlertTriangle } from "lucide-react";
 import Badge, { BadgeVariant } from "@/components/Badge";
 import { getPackages, processPackage, Package as PackageType, ApiError } from "@/lib/api";
+import { useNotifications } from "@/lib/NotificationContext";
 import {
   Table,
   TableHeader,
@@ -247,6 +249,8 @@ export default function PackageTrackerPage() {
   const [selectedPackageId, setSelectedPackageId] = useState<string | null>(null);
   const [isReceiveModalOpen, setIsReceiveModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notifiedPackageIds, setNotifiedPackageIds] = useState<Set<string>>(new Set());
+  const { addNotification } = useNotifications();
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -255,6 +259,25 @@ export default function PackageTrackerPage() {
         setError(null);
         const response = await getPackages();
         setPackages(response.packages);
+        
+        // Check for high-priority packages and create notifications
+        response.packages.forEach((pkg) => {
+          const urgency = pkg.urgency?.toLowerCase() || "low";
+          const isHighPriority = urgency === "high" || urgency === "critical";
+          
+          if (isHighPriority && !notifiedPackageIds.has(pkg.id)) {
+            addNotification({
+              title: `${urgency.charAt(0).toUpperCase() + urgency.slice(1)} Priority Package`,
+              message: `Package ${pkg.id} from ${pkg.destination || "unknown"} requires attention`,
+              type: urgency === "critical" ? "error" : "warning",
+              priority: urgency === "critical" ? "critical" : "high",
+              packageId: pkg.id,
+            });
+            
+            // Mark as notified to avoid duplicate notifications
+            setNotifiedPackageIds((prev) => new Set(prev).add(pkg.id));
+          }
+        });
       } catch (err) {
         const errorMessage =
           err instanceof ApiError

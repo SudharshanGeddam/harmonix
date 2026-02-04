@@ -13,6 +13,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/AuthProvider";
+import { NotificationProvider } from "@/lib/NotificationContext";
 import LayoutContent from "@/lib/LayoutContent";
 
 const inter = Inter({
@@ -34,7 +35,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased bg-gray-50`}>
         <AuthProvider>
-          <LayoutContent>{children}</LayoutContent>
+          <NotificationProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </NotificationProvider>
         </AuthProvider>
       </body>
     </html>
