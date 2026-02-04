@@ -181,7 +181,7 @@ export default function Home() {
               <StatCard
                 icon={TrendingUp}
                 title="Active Routes"
-                value={(metrics.total_receipts ?? 0).toLocaleString()}
+                value="24"
                 color="bg-gradient-to-br from-emerald-500 to-emerald-600"
               />
               <StatCard
@@ -193,7 +193,7 @@ export default function Home() {
               <StatCard
                 icon={CheckCircle2}
                 title="Completed Deliveries"
-                value={`${metrics.sustainability_score ?? 0}%`}
+                value="92%"
                 color="bg-gradient-to-br from-violet-500 to-purple-600"
               />
             </>
