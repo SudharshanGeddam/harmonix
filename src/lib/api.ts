@@ -40,6 +40,10 @@ export interface Receipt {
   category?: string;
   items?: string[];
   created_at?: string;
+  harm_score?: number;
+  disaster_type?: string | null;
+  destination?: string;
+  priority_label?: string;
 }
 
 export interface ProcessPackagePayload {
@@ -167,11 +171,22 @@ export async function getPackages(): Promise<PackagesResponse> {
  * Fetch all receipts
  */
 export const getReceipts = async () => {
-  const response = await fetch('http://localhost:8000/api/receipts');
-  const data = await response.json();
-  console.log(data); // { receipts: [...], count: X }
-  // Return receipts array, handling both formats
-  return Array.isArray(data) ? data : (data.receipts || []);
+  try {
+    const response = await fetch('http://localhost:8000/api/receipts');
+    if (!response.ok) {
+      throw new ApiError(response.status, `HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("Receipts API response:", data);
+    // Return receipts array, handling both formats
+    return Array.isArray(data) ? data : (data.receipts || []);
+  } catch (error) {
+    console.error("Error fetching receipts:", error);
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    throw new ApiError(500, "Failed to fetch receipts from server");
+  }
 };
 
 /**

@@ -21,6 +21,7 @@ import {
   AlertCircle,
   ShieldCheck,
   FileText,
+  AlertTriangle,
 } from "lucide-react";
 import { getReceipts, Receipt as ReceiptType, ApiError } from "@/lib/api";
 
@@ -60,12 +61,104 @@ interface ReceiptCardProps {
   date: string;
   category?: string;
   status: "verified" | "pending";
+  harm_score?: number;
+  disaster_type?: string | null;
+  destination?: string;
+  priority_label?: string;
 }
 
-function ReceiptCard({ id, merchant, amount, date, category, status }: ReceiptCardProps) {
+function getHarmScoreColor(score?: number): { bg: string; text: string; icon: string } {
+  if (score === undefined || score === null) {
+    return { bg: "bg-gray-100", text: "text-gray-700", icon: "text-gray-500" };
+  }
+  if (score >= 80) {
+    return { bg: "bg-red-100", text: "text-red-700", icon: "text-red-600" };
+  }
+  if (score >= 50) {
+    return { bg: "bg-amber-100", text: "text-amber-700", icon: "text-amber-600" };
+  }
+  return { bg: "bg-green-100", text: "text-green-700", icon: "text-green-600" };
+}
+
+function getCombinedUrgency(priority?: string, harm_score?: number): { 
+  label: string; 
+  bg: string; 
+  text: string; 
+  icon: string; 
+  animate: boolean;
+  description: string;
+} {
+  const priorityIsHigh = priority?.toLowerCase() === "high";
+  const priorityIsMedium = priority?.toLowerCase() === "medium";
+  const harmIsHigh = harm_score !== undefined && harm_score !== null && harm_score >= 80;
+  const harmIsMedium = harm_score !== undefined && harm_score !== null && harm_score >= 50;
+
+  // CRITICAL HUMANITARIAN: high priority AND harm_score >= 80
+  if (priorityIsHigh && harmIsHigh) {
+    return {
+      label: "CRITICAL HUMANITARIAN",
+      bg: "bg-gradient-to-r from-red-600 to-orange-600",
+      text: "text-white",
+      icon: "🔥",
+      animate: true,
+      description: "Urgency derived from delivery priority and disaster impact at destination.",
+    };
+  }
+
+  // HIGH URGENCY: high priority OR harm_score >= 80
+  if (priorityIsHigh || harmIsHigh) {
+    return {
+      label: "HIGH URGENCY",
+      bg: "bg-gradient-to-r from-orange-500 to-amber-500",
+      text: "text-white",
+      icon: "⚠️",
+      animate: false,
+      description: "Urgency derived from delivery priority and disaster impact at destination.",
+    };
+  }
+
+  // ELEVATED RISK: medium priority AND harm_score >= 50
+  if (priorityIsMedium && harmIsMedium) {
+    return {
+      label: "ELEVATED RISK",
+      bg: "bg-gradient-to-r from-yellow-400 to-amber-400",
+      text: "text-gray-800",
+      icon: "🟡",
+      animate: false,
+      description: "Urgency derived from delivery priority and disaster impact at destination.",
+    };
+  }
+
+  // NORMAL: default case
+  return {
+    label: "NORMAL",
+    bg: "bg-gray-200",
+    text: "text-gray-700",
+    icon: "⚪",
+    animate: false,
+    description: "Urgency derived from delivery priority and disaster impact at destination.",
+  };
+}
+
+function ReceiptCard({ 
+  id, 
+  merchant, 
+  amount, 
+  date, 
+  category, 
+  status,
+  harm_score,
+  disaster_type,
+  destination,
+  priority_label
+}: ReceiptCardProps) {
+  const harmScoreColor = getHarmScoreColor(harm_score);
+  const isHighHarm = harm_score !== undefined && harm_score !== null && harm_score >= 80;
+  const urgency = getCombinedUrgency(priority_label, harm_score);
+
   return (
     <div className="rounded-xl border border-blue-100 bg-gradient-to-br from-white to-blue-50 p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-200">
-      {/* Header with status */}
+      {/* Header with status and harm score */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h3 className="font-semibold text-gray-900 text-sm leading-tight">
@@ -73,17 +166,82 @@ function ReceiptCard({ id, merchant, amount, date, category, status }: ReceiptCa
           </h3>
           <p className="text-xs text-gray-500 mt-1">{date}</p>
         </div>
-        {status === "verified" ? (
-          <div className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0">
-            <CheckCircle2 className="h-3.5 w-3.5" />
-            Verified
+        <div className="flex flex-col gap-2 items-end">
+          {status === "verified" ? (
+            <div className="flex items-center gap-1 bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              Verified
+            </div>
+          ) : (
+            <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0">
+              <Clock className="h-3.5 w-3.5" />
+              Pending
+            </div>
+          )}
+          
+          {/* Harm Score Badge */}
+          {harm_score !== undefined && harm_score !== null ? (
+            <div 
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${harmScoreColor.bg} group relative ${isHighHarm ? "animate-criticalPulse" : ""}`}
+              title="Harm score indicates humanitarian urgency at destination"
+            >
+              <AlertTriangle className={`h-3.5 w-3.5 ${harmScoreColor.icon}`} />
+              <span className={`font-bold text-sm ${harmScoreColor.text}`}>
+                {harm_score}
+              </span>
+              {/* Tooltip */}
+              <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+                High harm score indicates humanitarian urgency
+              </div>
+            </div>
+          ) : (
+            <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${harmScoreColor.bg}`}>
+              <AlertTriangle className={`h-3.5 w-3.5 ${harmScoreColor.icon}`} />
+              <span className={`text-xs font-medium ${harmScoreColor.text}`}>
+                No disaster
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Disaster context */}
+      {(disaster_type || destination) && (
+        <div className="mb-4 pb-4 border-b border-blue-100">
+          <div className="flex items-center gap-2 text-xs">
+            {disaster_type && (
+              <span className="inline-flex items-center gap-1 bg-orange-100/70 text-orange-700 px-2 py-1 rounded">
+                <AlertCircle className="h-3 w-3" />
+                {disaster_type}
+              </span>
+            )}
+            {destination && (
+              <span className="text-gray-600">
+                📍 {destination}
+              </span>
+            )}
           </div>
-        ) : (
-          <div className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full text-xs font-medium flex-shrink-0">
-            <Clock className="h-3.5 w-3.5" />
-            Pending
+        </div>
+      )}
+
+      {/* Urgency Impact Badge */}
+      <div className={`mb-4 pb-4 border-b border-blue-100 ${urgency.animate ? "animate-pulse" : ""}`}>
+        <p className="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">Urgency Impact</p>
+        <div 
+          className={`flex items-center justify-between px-3 py-2 rounded-lg ${urgency.bg} group relative`}
+          title={urgency.description}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{urgency.icon}</span>
+            <span className={`font-bold text-sm ${urgency.text}`}>
+              {urgency.label}
+            </span>
           </div>
-        )}
+          {/* Tooltip on hover */}
+          <div className="absolute -bottom-8 left-0 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 pointer-events-none">
+            {urgency.description}
+          </div>
+        </div>
       </div>
 
       {/* Amount and category */}
@@ -117,12 +275,17 @@ export default function EthicalReceiptsPage() {
         setIsLoading(true);
         setError(null);
         const data = await getReceipts();
-        setReceipts(data);
+        
+        // Ensure data is an array
+        const receiptsArray = Array.isArray(data) ? data : (data?.receipts || []);
+        setReceipts(receiptsArray);
       } catch (err) {
         const errorMessage =
           err instanceof ApiError ? err.message : "Failed to load receipts";
         setError(errorMessage);
         console.error("Error fetching receipts:", err);
+        // Set empty receipts array on error to prevent stuck loading state
+        setReceipts([]);
       } finally {
         setIsLoading(false);
       }
@@ -183,7 +346,7 @@ export default function EthicalReceiptsPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-blue-800">
-                  Trust Score
+                  Harm Score
                 </p>
                 <p className="text-3xl font-bold text-blue-900">
                   {verificationRate}%
@@ -306,6 +469,10 @@ export default function EthicalReceiptsPage() {
               date={formatDate(receipt.created_at)}
               category={receipt.category}
               status={mapReceiptStatus(receipt.id)}
+              harm_score={receipt.harm_score}
+              disaster_type={receipt.disaster_type}
+              destination={receipt.destination}
+              priority_label={receipt.priority_label}
             />
           ))}
         </div>

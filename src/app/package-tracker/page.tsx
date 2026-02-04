@@ -60,6 +60,23 @@ function getUrgencyLabel(urgency?: string): string {
   return urgencyConfig[urgency?.toLowerCase() || "low"]?.label || "Low";
 }
 
+function getDynamicPriority(senderType?: string, priorityLabel?: string): { label: string; variant: BadgeVariant } {
+  // If sender type is NGO or Hospital, treat as highest priority
+  const normalizedSenderType = senderType?.toLowerCase() || "";
+  if (normalizedSenderType === "ngo" || normalizedSenderType === "hospital") {
+    return { label: "CRITICAL", variant: "danger" };
+  }
+  
+  // Otherwise use the priority_label from backend
+  if (priorityLabel === "high") {
+    return { label: priorityLabel, variant: "danger" };
+  }
+  if (priorityLabel === "medium") {
+    return { label: priorityLabel, variant: "warning" };
+  }
+  return { label: "Normal", variant: "success" };
+}
+
 // Receive Package Modal
 interface ReceivePackageModalProps {
   isOpen: boolean;
@@ -437,9 +454,14 @@ export default function PackageTrackerPage() {
                     <span className="text-gray-600 text-sm">{pkg.destination || "Not specified"}</span>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={pkg.priority_label === "high" ? "danger" : pkg.priority_label === "medium" ? "warning" : "success"} dot>
-                      {pkg.priority_label || "Normal"}
-                    </Badge>
+                    {(() => {
+                      const priorityInfo = getDynamicPriority(pkg.sender_type, pkg.priority_label);
+                      return (
+                        <Badge variant={priorityInfo.variant} dot>
+                          {priorityInfo.label}
+                        </Badge>
+                      );
+                    })()}
                   </TableCell>
                   <TableCell>
                     <span className="text-gray-600 text-sm capitalize">{pkg.sender_type || "Not specified"}</span>
