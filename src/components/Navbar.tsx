@@ -161,18 +161,20 @@ export default function Navbar() {
           </button>
 
           {/* User Menu */}
-          <button 
-            onClick={() => setShowUserMenu(!showUserMenu)}
-            className="group relative flex h-10 items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-2 pr-3 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50"
-          >
-            <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm text-white font-semibold text-xs transition-transform duration-200 group-hover:scale-105">
-              {avatarText}
-            </div>
-            <span className="hidden text-sm font-medium text-orange-700/80 lg:block max-w-[100px] truncate">
-              {userEmail.split("@")[0]}
-            </span>
-            {/* Online status indicator */}
-            <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500 animate-pulse" />
+          <div className="relative">
+            <button 
+              onClick={() => setShowUserMenu(!showUserMenu)}
+              className="group relative flex h-10 items-center gap-2 rounded-lg border border-orange-200/40 bg-gradient-to-r from-orange-50 to-amber-50 px-2 pr-3 shadow-sm transition-all duration-200 hover:border-orange-300/60 hover:bg-gradient-to-r hover:from-orange-100/60 hover:to-amber-100/60 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-orange-200/50"
+            >
+              <div className="relative flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 shadow-sm text-white font-semibold text-xs transition-transform duration-200 group-hover:scale-105">
+                {avatarText}
+              </div>
+              <span className="hidden text-sm font-medium text-orange-700/80 lg:block max-w-[100px] truncate">
+                {userEmail.split("@")[0]}
+              </span>
+              {/* Online status indicator */}
+              <span className="absolute bottom-1 left-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-500 animate-pulse" />
+            </button>
 
             {/* Dropdown menu */}
             {showUserMenu && (
@@ -194,7 +196,7 @@ export default function Navbar() {
                 </button>
               </div>
             )}
-          </button>
+          </div>
         </div>
       </div>
     </header>

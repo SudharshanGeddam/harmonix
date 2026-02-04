@@ -71,7 +71,10 @@ export default function Home() {
         setIsLoading(true);
         setError(null);
         const data = await getDashboardMetrics();
-        setMetrics(data);
+        setMetrics({
+          ...data,
+          sustainability_score: data.sustainability_score ?? 0,
+        });
       } catch (err) {
         const errorMessage =
           err instanceof ApiError ? err.message : "Failed to load dashboard metrics";
@@ -90,7 +93,10 @@ export default function Home() {
       setIsLoading(true);
       setError(null);
       const data = await getDashboardMetrics();
-      setMetrics(data);
+      setMetrics({
+        ...data,
+        sustainability_score: data.sustainability_score ?? 0,
+      });
     } catch (err) {
       const errorMessage =
         err instanceof ApiError ? err.message : "Failed to load dashboard metrics";
