@@ -1,7 +1,7 @@
 /**
  * Root Layout Component
  * 
- * Global layout wrapper for the EthicTrack dashboard application.
+ * Global layout wrapper for the Harmonix dashboard application.
  * Provides consistent navigation structure across all pages.
  * 
  * Structure:
@@ -22,7 +22,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EthicTrack - Dashboard",
+  title: "Harmonix - Dashboard",
   description: "Track packages and ethical receipts with ease",
 };
 

@@ -49,7 +49,7 @@ export default function Navbar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const currentPage = pageTitles[pathname] || { title: "EthicTrack", subtitle: "Supply chain platform" };
+  const currentPage = pageTitles[pathname] || { title: "Harmonix", subtitle: "Logistics management platform" };
 
   // Extract email domain for avatar text
   const userEmail = user?.email || "User";

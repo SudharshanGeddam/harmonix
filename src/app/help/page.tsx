@@ -1,7 +1,7 @@
 /**
  * Help & Support Page (Placeholder)
  * 
- * Help center and documentation access for the EthicTrack platform.
+ * Help center and documentation access for the Harmonix platform.
  * Provides quick links to resources and support channels.
  */
 "use client";
@@ -47,7 +47,7 @@ const supportChannels = [
   },
   {
     title: "Email Support",
-    description: "support@ethictrack.com",
+    description: "support@harmonix.com",
     icon: Mail,
     availability: "Response within 24h",
     color: "blue",
@@ -61,7 +61,7 @@ export default function HelpPage() {
       <header>
         <h1 className="text-2xl font-bold text-white">Help & Support</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Get help with EthicTrack features and contact our support team
+          Get help with Harmonix features and contact our support team
         </p>
       </header>
 

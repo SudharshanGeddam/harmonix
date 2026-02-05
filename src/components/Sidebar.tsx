@@ -108,10 +108,10 @@ export default function Sidebar() {
         </div>
         <div className="flex flex-col">
           <span className="text-base font-bold tracking-tight text-white">
-            EthicTrack
+            Harmonix
           </span>
           <span className="text-[10px] font-medium uppercase tracking-widest text-orange-300/70">
-            Supply Chain
+            Logistics Hub
           </span>
         </div>
       </div>

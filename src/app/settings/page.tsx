@@ -1,7 +1,7 @@
 /**
  * Settings Page (Placeholder)
  * 
- * Configuration and preferences page for the EthicTrack platform.
+ * Configuration and preferences page for the Harmonix platform.
  * Currently displays a coming soon state for demo purposes.
  */
 "use client";

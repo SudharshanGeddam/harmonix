@@ -167,9 +167,9 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center">
             <div className="inline-flex items-center justify-center h-10 w-10 rounded-lg bg-gradient-to-br from-indigo-600 to-indigo-700 text-white font-bold text-lg mb-3">
-              E
+              H
             </div>
-            <h1 className="text-2xl font-bold text-white">EthicTrack</h1>
+            <h1 className="text-2xl font-bold text-white">Harmonix</h1>
             <p className="mt-2 text-sm text-slate-400">
               {isSignUp
                 ? "Create your account"
