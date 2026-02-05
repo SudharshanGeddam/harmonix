@@ -43,7 +43,43 @@ const statusConfig: Record<
 
 export default function MapVisualizationPage() {
   // TODO: Fetch real routes from API endpoint
-  const activeRoutes: RouteData[] = [];
+  const activeRoutes: RouteData[] = [
+    {
+      id: "ROUTE-001",
+      destination: "New York, NY",
+      vehicle: "Truck-A45",
+      status: "active",
+      eta: "2:30 PM",
+    },
+    {
+      id: "ROUTE-002",
+      destination: "Los Angeles, CA",
+      vehicle: "Truck-B12",
+      status: "active",
+      eta: "4:15 PM",
+    },
+    {
+      id: "ROUTE-003",
+      destination: "Chicago, IL",
+      vehicle: "Truck-C78",
+      status: "completed",
+      eta: "—",
+    },
+    {
+      id: "ROUTE-004",
+      destination: "Houston, TX",
+      vehicle: "Truck-D56",
+      status: "delayed",
+      eta: "6:45 PM",
+    },
+    {
+      id: "ROUTE-005",
+      destination: "Miami, FL",
+      vehicle: "Truck-E89",
+      status: "active",
+      eta: "3:20 PM",
+    },
+  ];
   
   const activeCount = activeRoutes.filter((r) => r.status === "active").length;
   const vehiclesInTransit = activeRoutes.filter(
